@@ -1,0 +1,14 @@
+{
+    "name": "mahesh-fashion-desktop",
+    "version": "1.0.0",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "dev:backend": "cd backend && npm run dev",
+        "dev:frontend": "cd frontend && npm run dev",
+        "app": "npm run dev:backend & npm run dev:frontend & sleep 5 && npm start"
+    },
+    "devDependencies": {
+        "electron": "^31.7.7"
+    }
+}

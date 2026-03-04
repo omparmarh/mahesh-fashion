@@ -1,0 +1,9 @@
+#!/bin/bash
+# Mahesh Fashion App Launcher
+
+# Get the path to the app bundle and the root project directory
+APP_PATH="$(cd "$(dirname "$0")"/../../.. && pwd)"
+cd "$APP_PATH"
+
+# Execute the project's start.sh script
+exec ./start.sh
