@@ -6,15 +6,22 @@ const Invoice = require('../models/Invoice');
 const History = require('../models/History');
 
 function parseDateValid(dateVal) {
-    if (!dateVal) return new Date("");
-    if (typeof dateVal === 'number') return new Date((dateVal - (25567 + 2)) * 86400 * 1000);
-    const d = new Date(dateVal);
-    if (!isNaN(d.getTime())) return d;
+    if (!dateVal) return new Date(NaN);
+    // Already a Date object (from MongoDB lean)
+    if (dateVal instanceof Date) return dateVal;
+    // ISO string or any string parseable by Date
     if (typeof dateVal === 'string') {
+        const direct = new Date(dateVal);
+        if (!isNaN(direct.getTime())) return direct;
+        // Try dd-mm-yyyy or dd/mm/yyyy
         const parts = dateVal.split(/[-/]/);
-        if (parts.length === 3) return new Date(`${parts[2]}-${parts[1]}-${parts[0]}`);
+        if (parts.length === 3 && parts[0].length <= 2) {
+            return new Date(`${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`);
+        }
     }
-    return new Date("");
+    // Excel serial number
+    if (typeof dateVal === 'number') return new Date((dateVal - (25567 + 2)) * 86400 * 1000);
+    return new Date(NaN);
 }
 
 // GET dashboard stats
