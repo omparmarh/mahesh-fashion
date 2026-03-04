@@ -2,7 +2,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { HomeIcon, ScissorsIcon, DocumentTextIcon, ClipboardDocumentListIcon, ArchiveBoxIcon, ArrowRightOnRectangleIcon } from '@heroicons/react/24/outline';
 
-export default function Navbar() {
+export default function Navbar({ onNavItemClick }) {
     const { logout } = useAuth();
     const location = useLocation();
 
@@ -28,6 +28,7 @@ export default function Navbar() {
                         <Link
                             key={item.name}
                             to={item.path}
+                            onClick={onNavItemClick}
                             className={`flex items-center px-4 py-3 rounded-md transition-colors ${isActive ? 'bg-mahesh-gold text-mahesh-maroon font-semibold' : 'text-gray-100 hover:bg-red-800 hover:text-white'
                                 }`}
                         >
