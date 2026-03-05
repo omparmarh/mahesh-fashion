@@ -7,19 +7,23 @@ const History = require('../models/History');
 
 function parseDateValid(dateVal) {
     if (!dateVal) return new Date(NaN);
-    // Already a Date object (from MongoDB lean)
-    if (dateVal instanceof Date) return dateVal;
-    // ISO string or any string parseable by Date
+    // Handle JS Date objects and MongoDB Date objects
+    if (dateVal instanceof Date) {
+        return isNaN(dateVal.getTime()) ? new Date(NaN) : dateVal;
+    }
+    // Handle MongoDB extended JSON { $date: ... }
+    if (typeof dateVal === 'object' && dateVal.$date) {
+        return new Date(dateVal.$date);
+    }
+    // ISO string
     if (typeof dateVal === 'string') {
         const direct = new Date(dateVal);
         if (!isNaN(direct.getTime())) return direct;
-        // Try dd-mm-yyyy or dd/mm/yyyy
         const parts = dateVal.split(/[-/]/);
         if (parts.length === 3 && parts[0].length <= 2) {
             return new Date(`${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`);
         }
     }
-    // Excel serial number
     if (typeof dateVal === 'number') return new Date((dateVal - (25567 + 2)) * 86400 * 1000);
     return new Date(NaN);
 }
@@ -29,6 +33,7 @@ router.get('/', auth, async (req, res) => {
     try {
         const customers = await Customer.find().lean();
         const orders = await Order.find().lean();
+        console.log('Dashboard: orders found:', orders.length, orders.map(o => ({ id: o.OrderID, total: o.Total, created: o.Created })));
         const invoices = await Invoice.find().lean();
         const history = await History.find().lean();
 
@@ -65,8 +70,7 @@ router.get('/', auth, async (req, res) => {
             readyOrders: orders.filter(o => o.Status === 'Ready').length,
             deliveredOrders: history.length,
             monthRevenue: thisMonthOrders.reduce((sum, o) => sum + (Number(o.Total) || 0), 0),
-            monthCollected: thisMonthOrders.reduce((sum, o) => sum + (Number(o.Paid) || 0), 0) +
-                thisMonthInvoices.reduce((sum, inv) => sum + (Number(inv.Paid) || 0), 0), // fallback if they do use invoices
+            monthCollected: thisMonthOrders.reduce((sum, o) => sum + (Number(o.Paid) || 0), 0),
         };
 
         // Monthly stats for chart (Last 6 months)

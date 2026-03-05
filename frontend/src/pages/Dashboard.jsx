@@ -77,7 +77,7 @@ export default function Dashboard() {
                             <BarChart data={chartData}>
                                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
                                 <XAxis dataKey="month" axisLine={false} tickLine={false} />
-                                <YAxis axisLine={false} tickLine={false} tickFormatter={(v) => `₹${v / 1000}k`} />
+                                <YAxis axisLine={false} tickLine={false} tickFormatter={(v) => v >= 1000 ? `₹${(v / 1000).toFixed(0)}k` : `₹${v}`} />
                                 <Tooltip cursor={{ fill: '#F3F4F6' }} formatter={(v) => `₹${v.toLocaleString()}`} />
                                 <Bar dataKey="revenue" fill="#8B0000" radius={[4, 4, 0, 0]} barSize={40} />
                             </BarChart>
