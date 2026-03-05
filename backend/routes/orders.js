@@ -4,6 +4,7 @@ const Order = require('../models/Order');
 const Customer = require('../models/Customer');
 const Measurement = require('../models/Measurement');
 const History = require('../models/History');
+const generateOrderID = require('../utils/generateOrderID');
 
 // GET all orders
 router.get('/', auth, async (req, res) => {
@@ -104,7 +105,7 @@ router.get('/:id', auth, async (req, res) => {
 router.post('/', auth, async (req, res) => {
     try {
         const payload = req.body;
-        const orderID = `ORD${Date.now()}`;
+        const orderID = await generateOrderID();
 
         const newOrder = new Order({
             OrderID: orderID,

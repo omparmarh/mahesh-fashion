@@ -4,6 +4,7 @@ const Customer = require('../models/Customer');
 const Measurement = require('../models/Measurement');
 const Order = require('../models/Order');
 const Invoice = require('../models/Invoice');
+const generateOrderID = require('../utils/generateOrderID');
 
 // POST /api/new-order/complete
 router.post('/complete', auth, async (req, res) => {
@@ -17,7 +18,7 @@ router.post('/complete', auth, async (req, res) => {
         } = req.body;
 
         const customerID = `C${Date.now()}`;
-        const orderID = `ORD${Date.now()}`;
+        const orderID = await generateOrderID();
 
         // 1. Create Customer
         const newCustomer = new Customer({

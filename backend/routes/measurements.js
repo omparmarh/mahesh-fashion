@@ -3,6 +3,7 @@ const auth = require('../middleware/auth');
 const Customer = require('../models/Customer');
 const Measurement = require('../models/Measurement');
 const Order = require('../models/Order');
+const generateOrderID = require('../utils/generateOrderID');
 
 // GET all customers/measurements (from DB)
 router.get('/list', auth, async (req, res) => {
@@ -63,7 +64,7 @@ router.post('/', auth, async (req, res) => {
     try {
         const payload = req.body;
         const customerID = `C${Date.now()}`;
-        const orderID = `ORD${Date.now()}`;
+        const orderID = await generateOrderID();
 
         const newCustomer = new Customer({
             ID: customerID,
