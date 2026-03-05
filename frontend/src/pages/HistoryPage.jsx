@@ -41,8 +41,8 @@ export default function HistoryPage() {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
             <div className="p-6 border-b border-gray-200 flex flex-col md:flex-row justify-between items-start md:items-center bg-gray-50 rounded-t-xl gap-4">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Excel History</h1>
-                    <p className="text-gray-500 text-sm mt-1">Real-time data from History.xlsx</p>
+                    <h1 className="text-2xl font-bold text-gray-900">Order History</h1>
+                    <p className="text-gray-500 text-sm mt-1">Archive of all delivered orders</p>
                 </div>
 
                 <div className="flex flex-wrap gap-2 w-full md:w-auto">
@@ -81,7 +81,13 @@ export default function HistoryPage() {
                         {loading && history.length === 0 ? (
                             <tr><td colSpan="6" className="p-8 text-center text-gray-500">Loading history...</td></tr>
                         ) : history.length === 0 ? (
-                            <tr><td colSpan="6" className="p-8 text-center text-gray-500">No history records found.</td></tr>
+                            <tr>
+                                <td colSpan="6" className="p-12 text-center">
+                                    <div className="text-gray-400 text-4xl mb-3">📦</div>
+                                    <p className="text-gray-600 font-medium">No delivered orders yet</p>
+                                    <p className="text-gray-400 text-sm mt-1">Orders will appear here once you mark them as "Delivered" on the Orders List page</p>
+                                </td>
+                            </tr>
                         ) : history.map(item => (
                             <tr key={item.OrderID} className="hover:bg-gray-50 align-top">
                                 <td className="px-6 py-4 font-bold text-gray-900 text-sm">{item.OrderID}</td>
