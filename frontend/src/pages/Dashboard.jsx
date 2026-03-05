@@ -11,6 +11,7 @@ import {
 export default function Dashboard() {
     const [stats, setStats] = useState(null);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchStats() {
@@ -38,7 +39,7 @@ export default function Dashboard() {
 
     const chartData = [...stats.monthlyStats].reverse();
 
-    const navigate = useNavigate();
+
 
     return (
         <div className="space-y-6">
