@@ -125,6 +125,22 @@ router.post('/', auth, async (req, res) => {
     }
 });
 
+// PUT update measurement fields by OrderID
+router.put('/update/:orderID', auth, async (req, res) => {
+    try {
+        const updatedMeasurement = await Measurement.findOneAndUpdate(
+            { OrderID: req.params.orderID },
+            req.body,
+            { new: true }
+        ).lean();
+
+        if (!updatedMeasurement) return res.status(404).json({ message: 'Measurement not found' });
+        res.json({ message: 'Measurement updated', measurement: updatedMeasurement });
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+});
+
 // PUT update measurement/customer
 router.put('/:id', auth, async (req, res) => {
     try {
