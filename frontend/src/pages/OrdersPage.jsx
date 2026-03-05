@@ -174,11 +174,7 @@ export default function OrdersPage() {
                                             <ChatBubbleLeftEllipsisIcon className="w-5 h-5" />
                                         </a>
                                     )}
-                                    {order.excelUrl && (
-                                        <a href={`http://localhost:5001${order.excelUrl}`} title="Download Excel" className="text-blue-600 hover:text-blue-800 transition-colors" download>
-                                            <ArrowDownTrayIcon className="w-5 h-5" />
-                                        </a>
-                                    )}
+
                                     {order.measurement && (
                                         <button onClick={() => setSelectedMeasurement(order.measurement)} className="text-purple-600 hover:text-purple-800 transition-colors" title="View Measurements">
                                             <EyeIcon className="w-5 h-5" />

@@ -63,7 +63,7 @@ router.post('/', auth, async (req, res) => {
     try {
         const payload = req.body;
         const customerID = `C${Date.now()}`;
-        const orderID = `ORD${Math.floor(Math.random() * 10000).toString().padStart(4, '0')}`;
+        const orderID = `ORD${Date.now()}`;
 
         const newCustomer = new Customer({
             ID: customerID,

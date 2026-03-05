@@ -37,6 +37,56 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
+// GET /api/orders/export/excel  ← must be BEFORE /:id
+router.get('/export/excel', auth, async (req, res) => {
+    try {
+        const { status } = req.query;
+        let query = {};
+        if (status && status !== 'All') query.Status = status;
+
+        const orders = await Order.find(query).lean();
+        const enriched = await Promise.all(orders.map(async (order) => {
+            const customer = await Customer.findOne({ ID: order.CustomerID }).lean();
+            return { ...order, customerName: customer?.Name || '', customerPhone: customer?.Phone || '' };
+        }));
+
+        const ExcelJS = require('exceljs');
+        const workbook = new ExcelJS.Workbook();
+        const sheet = workbook.addWorksheet('Orders');
+
+        sheet.columns = [
+            { header: 'Order ID', key: 'OrderID', width: 18 },
+            { header: 'Customer Name', key: 'customerName', width: 22 },
+            { header: 'Phone', key: 'customerPhone', width: 15 },
+            { header: 'Items', key: 'Items', width: 25 },
+            { header: 'Total (₹)', key: 'Total', width: 12 },
+            { header: 'Paid (₹)', key: 'Paid', width: 12 },
+            { header: 'Balance (₹)', key: 'Balance', width: 12 },
+            { header: 'Status', key: 'Status', width: 14 },
+            { header: 'Delivery Date', key: 'DeliveryDate', width: 16 },
+            { header: 'Created', key: 'Created', width: 16 },
+        ];
+
+        enriched.forEach(o => {
+            sheet.addRow({
+                ...o,
+                DeliveryDate: o.DeliveryDate ? new Date(o.DeliveryDate).toLocaleDateString('en-IN') : '',
+                Created: o.Created ? new Date(o.Created).toLocaleDateString('en-IN') : '',
+            });
+        });
+
+        sheet.getRow(1).font = { bold: true, color: { argb: 'FFFFFFFF' } };
+        sheet.getRow(1).fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FF8B0000' } };
+
+        res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        res.setHeader('Content-Disposition', `attachment; filename=Orders_${status || 'All'}_${Date.now()}.xlsx`);
+        await workbook.xlsx.write(res);
+        res.end();
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // GET single order
 router.get('/:id', auth, async (req, res) => {
     try {

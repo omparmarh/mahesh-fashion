@@ -20,17 +20,21 @@ export default function HistoryPage() {
 
     useEffect(() => {
         fetchHistory(search);
-
-        // Auto-refresh every 5 seconds as requested
-        const interval = setInterval(() => {
-            fetchHistory(search);
-        }, 5000);
-
-        return () => clearInterval(interval);
     }, [search]);
 
-    const handleDownload = (sheet) => {
-        window.open(`${api.defaults.baseURL}/download/${sheet}`, '_blank');
+    const handleDownload = async () => {
+        try {
+            const resp = await api.get('/download/history', { responseType: 'blob' });
+            const url = window.URL.createObjectURL(new Blob([resp.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', 'History.xlsx');
+            document.body.appendChild(link);
+            link.click();
+            link.remove();
+        } catch (err) {
+            alert('Failed to download history');
+        }
     };
 
     return (
@@ -52,7 +56,10 @@ export default function HistoryPage() {
                             onChange={(e) => setSearch(e.target.value)}
                         />
                     </div>
-                    <button onClick={() => handleDownload('history')} className="btn-secondary flex items-center shadow-sm whitespace-nowrap">
+                    <button onClick={() => fetchHistory(search)} className="btn-secondary flex items-center shadow-sm whitespace-nowrap">
+                        ↻ Refresh
+                    </button>
+                    <button onClick={handleDownload} className="btn-secondary flex items-center shadow-sm whitespace-nowrap">
                         <ArrowDownTrayIcon className="w-4 h-4 mr-2" /> Download Excel
                     </button>
                 </div>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../api';
 import {
     UsersIcon, ClipboardDocumentCheckIcon, CurrencyRupeeIcon, ShoppingBagIcon
@@ -37,9 +38,19 @@ export default function Dashboard() {
 
     const chartData = [...stats.monthlyStats].reverse();
 
+    const navigate = useNavigate();
+
     return (
         <div className="space-y-6">
-            <h1 className="text-3xl font-bold text-gray-800 border-b pb-4 border-gray-200">Dashboard</h1>
+            <div className="flex justify-between items-center border-b pb-4 border-gray-200">
+                <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
+                <button
+                    onClick={() => navigate('/new-order/customer')}
+                    className="bg-mahesh-maroon hover:bg-red-900 text-white font-bold px-6 py-3 rounded-lg shadow-md flex items-center gap-2 text-base transition-colors"
+                >
+                    <span className="text-xl">+</span> New Customer
+                </button>
+            </div>
 
             {/* Stat Cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">

@@ -23,7 +23,7 @@ router.post('/login', async (req, res) => {
         const adminPassword = process.env.ADMIN_PASSWORD || 'admin123';
 
         if (email === adminEmail && password === adminPassword) {
-            const token = jwt.sign({ id: 'EXCEL_ADMIN', role: 'admin' }, process.env.JWT_SECRET || 'secret', {
+            const token = jwt.sign({ id: 'EXCEL_ADMIN', role: 'admin' }, process.env.JWT_SECRET, {
                 expiresIn: '7d',
             });
 

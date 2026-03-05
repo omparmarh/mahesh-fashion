@@ -7,6 +7,7 @@ import MeasurementsPage from './pages/MeasurementsPage';
 import BillingPage from './pages/BillingPage';
 import OrdersPage from './pages/OrdersPage';
 import HistoryPage from './pages/HistoryPage';
+import { CustomerDetailsStep, MeasurementsStep, BillingStep } from './pages/NewOrderFlow';
 import Layout from './components/Layout';
 
 const ProtectedRoute = ({ children }) => {
@@ -30,6 +31,11 @@ function App() {
         <Route path="/billing/:id" element={<ProtectedRoute><BillingPage /></ProtectedRoute>} />
         <Route path="/orders" element={<ProtectedRoute><OrdersPage /></ProtectedRoute>} />
         <Route path="/history" element={<ProtectedRoute><HistoryPage /></ProtectedRoute>} />
+
+        {/* New Customer 3-Step Flow */}
+        <Route path="/new-order/customer" element={<ProtectedRoute><CustomerDetailsStep /></ProtectedRoute>} />
+        <Route path="/new-order/measurements" element={<ProtectedRoute><MeasurementsStep /></ProtectedRoute>} />
+        <Route path="/new-order/billing" element={<ProtectedRoute><BillingStep /></ProtectedRoute>} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

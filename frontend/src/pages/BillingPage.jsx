@@ -92,13 +92,9 @@ export default function BillingPage() {
                 });
             }
 
-            if (data.excelUrl) {
-                window.open(`http://localhost:5001${data.excelUrl}`, '_blank');
-            }
-
             if (!id) localStorage.removeItem('billingDraft');
 
-            alert('Invoice Generated & Excel Downloaded!');
+            alert('Invoice saved successfully!');
             navigate('/orders');
         } catch (err) {
             alert(err.response?.data?.message || 'Error saving invoice');
