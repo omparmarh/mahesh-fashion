@@ -6,6 +6,16 @@ const Order = require('../models/Order');
 const Invoice = require('../models/Invoice');
 const generateOrderID = require('../utils/generateOrderID');
 
+// GET /api/new-order/next-id
+router.get('/next-id', auth, async (req, res) => {
+    try {
+        const orderID = await generateOrderID();
+        res.json({ orderID });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
 // POST /api/new-order/complete
 router.post('/complete', auth, async (req, res) => {
     try {
