@@ -346,6 +346,8 @@ export function BillingStep() {
     const addArticle = () => setArticles([...articles, { article: '', qty: 1, rate: 0, amount: 0 }]);
     const removeArticle = (i) => setArticles(articles.filter((_, idx) => idx !== i));
 
+    const [realOrderID, setRealOrderID] = useState('');
+
     const handlePrint = (target) => {
         setPrintTarget(target);
         setTimeout(() => {
@@ -357,7 +359,7 @@ export function BillingStep() {
     const handleSave = async () => {
         setSaving(true);
         try {
-            await api.post('/new-order/complete', {
+            const { data } = await api.post('/new-order/complete', {
                 customerName, customerPhone, deliveryDate,
                 shirt, pant, articles,
                 stitchingCost: Number(stitchingCost),
@@ -369,7 +371,15 @@ export function BillingStep() {
                 paymentMode,
                 billNo
             });
-            navigate('/orders');
+
+            // Set the real Order ID returned from the database
+            if (data.orderID) {
+                setRealOrderID(data.orderID);
+            }
+
+            alert(`Order Saved Successfully! Order ID: ${data.orderID || 'Created'}`);
+            // Don't navigate immediately so user can print with the real ID if they want
+            // navigate('/orders'); 
         } catch (err) {
             alert(err.response?.data?.message || 'Failed to save order');
         } finally {
@@ -386,7 +396,7 @@ export function BillingStep() {
                 active={printTarget === 'measurement'}
                 customerName={customerName}
                 customerPhone={customerPhone}
-                billNo={billNo}
+                billNo={realOrderID || billNo}
                 deliveryDate={deliveryDisplay}
                 shirt={shirt}
                 pant={pant}
@@ -395,7 +405,7 @@ export function BillingStep() {
                 active={printTarget === 'bill'}
                 customerName={customerName}
                 customerPhone={customerPhone}
-                billNo={billNo}
+                billNo={realOrderID || billNo}
                 date={today}
                 deliveryDate={deliveryDisplay}
                 articles={articles}
@@ -423,7 +433,11 @@ export function BillingStep() {
             {/* Bill header */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-5">
                 <div className="flex gap-6 text-sm text-gray-600">
-                    <div><span className="font-semibold text-gray-800">Bill No:</span> <span className="font-mono text-mahesh-maroon">{billNo}</span></div>
+                    <div>
+                        <span className="font-semibold text-gray-800">{realOrderID ? 'Order ID:' : 'Temp Bill No:'}</span>
+                        <span className="font-mono text-mahesh-maroon ml-1">{realOrderID || billNo}</span>
+                        {realOrderID && <span className="ml-2 text-green-600 font-bold">✓ Saved</span>}
+                    </div>
                     <div><span className="font-semibold text-gray-800">Date:</span> {today}</div>
                     <div><span className="font-semibold text-gray-800">Payment Mode:</span>
                         <select className="ml-2 border border-gray-300 rounded px-2 py-0.5 text-sm" value={paymentMode} onChange={(e) => setPaymentMode(e.target.value)}>
@@ -513,20 +527,30 @@ export function BillingStep() {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex gap-3 flex-wrap">
+            <div className="flex gap-3 flex-wrap items-center">
                 <button onClick={() => handlePrint('measurement')} className="border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold flex items-center gap-2 px-5 py-3 rounded-lg transition-colors">
                     📋 Print Measurement
                 </button>
                 <button onClick={() => handlePrint('bill')} className="border border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold flex items-center gap-2 px-5 py-3 rounded-lg transition-colors">
                     🧾 Print Bill
                 </button>
-                <button
-                    onClick={handleSave}
-                    disabled={saving}
-                    className="bg-mahesh-maroon hover:bg-red-900 text-white font-bold flex items-center gap-2 px-6 py-3 rounded-lg shadow-md transition-colors ml-auto disabled:opacity-60"
-                >
-                    💾 {saving ? 'Saving...' : 'Save & Finish'}
-                </button>
+
+                {!realOrderID ? (
+                    <button
+                        onClick={handleSave}
+                        disabled={saving}
+                        className="bg-mahesh-maroon hover:bg-red-900 text-white font-bold flex items-center gap-2 px-6 py-3 rounded-lg shadow-md transition-colors ml-auto disabled:opacity-60"
+                    >
+                        💾 {saving ? 'Saving...' : 'Save & Get Order ID'}
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => navigate('/orders')}
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold flex items-center gap-2 px-8 py-3 rounded-lg shadow-md transition-colors ml-auto"
+                    >
+                        ✅ Finish & Close
+                    </button>
+                )}
             </div>
         </div>
     );
