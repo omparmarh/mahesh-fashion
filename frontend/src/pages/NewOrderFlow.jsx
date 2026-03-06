@@ -16,10 +16,10 @@ function ProgressBar({ step }) {
                         <div className="flex flex-col items-center">
                             <div
                                 className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm border-2 transition-all ${done
-                                        ? 'bg-mahesh-maroon border-mahesh-maroon text-white'
-                                        : active
-                                            ? 'bg-white border-mahesh-maroon text-mahesh-maroon'
-                                            : 'bg-white border-gray-300 text-gray-400'
+                                    ? 'bg-mahesh-maroon border-mahesh-maroon text-white'
+                                    : active
+                                        ? 'bg-white border-mahesh-maroon text-mahesh-maroon'
+                                        : 'bg-white border-gray-300 text-gray-400'
                                     }`}
                             >
                                 {done ? '✓' : num}
@@ -544,11 +544,11 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
             body * { visibility: hidden !important; }
             #measurement-slip-print, #measurement-slip-print * { visibility: visible !important; }
             #measurement-slip-print { position: fixed; top: 0; left: 0; width: 100%; display: block !important; }
-            @page { size: A5 portrait; margin: 4mm; }
+            @page { size: A6 portrait; margin: 2mm; }
           }
         `}</style>
             )}
-            <div style={{ fontFamily: "'Courier New', monospace", fontSize: '11px', color: '#000', width: '100%' }}>
+            <div style={{ fontFamily: "'Courier New', monospace", fontSize: '10px', color: '#000', width: '100%' }}>
 
                 {/* PANT SLIP */}
                 <div style={{ padding: '4px 6px', borderBottom: '1px solid #000', marginBottom: '2px' }}>
@@ -559,19 +559,19 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                         </div>
                         <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '13px' }}>MAHESH TAILOR</div>
                         <div style={{ textAlign: 'right', fontSize: '11px' }}>
-                            <div>No: {billNo}</div>
-                            <div>D.: {deliveryDate}</div>
+                            <div>ID: <b>{billNo}</b></div>
+                            <div>D.: <b>{deliveryDate}</b></div>
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: '16px' }}>
                         <div style={{ flex: 1 }}>
-                            <div><b>W:</b> {val(pant.w)}</div>
-                            <div><b>H:</b> {val(pant.h)}</div>
-                            <div><b>L:</b> {val(pant.l1)} {val(pant.l2)}</div>
-                            <div><b>T:</b> {val(pant.t)}</div>
-                            <div><b>K:</b> {val(pant.k)}</div>
-                            <div><b>B:</b> {val(pant.b)}</div>
-                            <div><b>R:</b> {val(pant.r)}</div>
+                            <div><b>W:</b> <b>{val(pant.w)}</b></div>
+                            <div><b>H:</b> <b>{val(pant.h)}</b></div>
+                            <div><b>L:</b> <b>{val(pant.l1)} {val(pant.l2)}</b></div>
+                            <div><b>T:</b> <b>{val(pant.t)}</b></div>
+                            <div><b>K:</b> <b>{val(pant.k)}</b></div>
+                            <div><b>B:</b> <b>{val(pant.b)}</b></div>
+                            <div><b>R:</b> <b>{val(pant.r)}</b></div>
                         </div>
                         {pant.notes && (
                             <div style={{ fontSize: '10px', borderLeft: '1px dashed #999', paddingLeft: '8px', maxWidth: '45%', whiteSpace: 'pre-wrap' }}>
@@ -593,19 +593,19 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                         </div>
                         <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '13px' }}>MAHESH TAILOR</div>
                         <div style={{ textAlign: 'right', fontSize: '11px' }}>
-                            <div>No: {billNo}</div>
-                            <div>D.: {deliveryDate}</div>
+                            <div>ID: <b>{billNo}</b></div>
+                            <div>D.: <b>{deliveryDate}</b></div>
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: '16px' }}>
                         <div style={{ flex: 1 }}>
-                            <div><b>C:</b> {val(shirt.c1)} {val(shirt.c2)} {val(shirt.c3)}</div>
-                            <div><b>F:</b> {val(shirt.f)}</div>
-                            <div><b>L:</b> {val(shirt.l)}</div>
-                            <div><b>So:</b> {val(shirt.so)}</div>
-                            <div><b>S:</b> {val(shirt.s1)} {val(shirt.s2)}</div>
-                            <div><b>Ku:</b> {val(shirt.ku1)} {val(shirt.ku2)}</div>
-                            <div><b>Ko:</b> {val(shirt.ko1)} {val(shirt.ko2)} <b style={{ marginLeft: '8px' }}>K:</b> {val(shirt.k)}</div>
+                            <div><b>C:</b> <b>{val(shirt.c1)} {val(shirt.c2)} {val(shirt.c3)}</b></div>
+                            <div><b>F:</b> <b>{val(shirt.f)}</b></div>
+                            <div><b>L:</b> <b>{val(shirt.l)}</b></div>
+                            <div><b>So:</b> <b>{val(shirt.so)}</b></div>
+                            <div><b>S:</b> <b>{val(shirt.s1)} {val(shirt.s2)}</b></div>
+                            <div><b>Ku:</b> <b>{val(shirt.ku1)} {val(shirt.ku2)}</b></div>
+                            <div><b>Ko:</b> <b>{val(shirt.ko1)} {val(shirt.ko2)} <span style={{ marginLeft: '8px' }}>K:</span> {val(shirt.k)}</b></div>
                         </div>
                         {shirt.notes && (
                             <div style={{ fontSize: '10px', borderLeft: '1px dashed #999', paddingLeft: '8px', maxWidth: '45%', whiteSpace: 'pre-wrap' }}>
@@ -630,11 +630,11 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
             body * { visibility: hidden !important; }
             #bill-print, #bill-print * { visibility: visible !important; }
             #bill-print { position: fixed; top: 0; left: 0; width: 100%; display: block !important; }
-            @page { size: A5 portrait; margin: 6mm; }
+            @page { size: A6 portrait; margin: 4mm; }
           }
         `}</style>
             )}
-            <div style={{ fontFamily: 'Arial, sans-serif', fontSize: '11px', color: '#000' }}>
+            <div style={{ fontFamily: 'Arial, sans-serif', fontSize: '10px', color: '#000' }}>
 
                 {/* TOP HEADER */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
@@ -651,7 +651,7 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
                 {/* CUSTOMER INFO */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px', marginBottom: '4px' }}>
                     <div><strong>Name :</strong> {customerName}</div>
-                    <div style={{ textAlign: 'right' }}><strong>Bill No.</strong> {billNo}</div>
+                    <div style={{ textAlign: 'right' }}><strong>Order ID</strong> {billNo}</div>
                     <div><strong>Mo :</strong> {customerPhone}</div>
                     <div style={{ textAlign: 'right' }}><strong>Date</strong> {date}</div>
                     <div></div>
