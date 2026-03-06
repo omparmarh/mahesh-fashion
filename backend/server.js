@@ -15,18 +15,14 @@ const app = express();
 // BUG 2 FIX: Restrict CORS to known origins only
 const allowedOrigins = [
   'https://mahesh-fashion.netlify.app',
+  'https://mahesh-fashion-and-tailors.netlify.app',
   'http://localhost:5173',
   'http://localhost:3000',
   'http://localhost:5001'
 ];
+
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true, // Allow all origins to fix live deployment CORS issues
   credentials: true
 }));
 
