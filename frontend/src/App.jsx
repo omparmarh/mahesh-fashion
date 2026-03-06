@@ -11,18 +11,17 @@ import { CustomerDetailsStep, MeasurementsStep, BillingStep } from './pages/NewO
 import Layout from './components/Layout';
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
-  return isAuthenticated ? <Layout>{children}</Layout> : <Navigate to="/login" replace />;
+  return <Layout>{children}</Layout>;
 };
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<Navigate to="/dashboard" replace />} />
 
-        {/* Protected Routes */}
-        <Route path="/" element={<ProtectedRoute><Navigate to="/dashboard" replace /></ProtectedRoute>} />
+        {/* Routes */}
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/measurements" element={<ProtectedRoute><MeasurementListPage /></ProtectedRoute>} />
         <Route path="/measurements/new" element={<ProtectedRoute><MeasurementsPage /></ProtectedRoute>} />
@@ -37,7 +36,7 @@ function App() {
         <Route path="/new-order/measurements" element={<ProtectedRoute><MeasurementsStep /></ProtectedRoute>} />
         <Route path="/new-order/billing" element={<ProtectedRoute><BillingStep /></ProtectedRoute>} />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter>
   );
