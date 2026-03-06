@@ -589,16 +589,14 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
 
                 {/* PANT SLIP */}
                 <div style={{ padding: '4px 6px', borderBottom: '1px solid #000', marginBottom: '2px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3px' }}>
-                        <div>
-                            <div style={{ fontWeight: 'bold', fontSize: '13px' }}>Name: {customerName}</div>
-                            <div style={{ fontWeight: 'bold', fontSize: '12px' }}>PANT ( )</div>
-                        </div>
-                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '14px' }}>MAHESH TAILOR</div>
-                        <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: '16px', fontWeight: '900' }}>ID: {billNo}</div>
-                            <div style={{ fontSize: '11px', fontWeight: '900' }}>Mo: {customerPhone}</div>
-                            <div style={{ fontSize: '11px', fontWeight: '900' }}>D.: {deliveryDate}</div>
+                    <div style={{ position: 'relative', marginBottom: '4px' }}>
+                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '15px' }}>MAHESH TAILOR</div>
+                        <div style={{ position: 'absolute', top: 0, right: 0, fontSize: '15px', fontWeight: '900' }}>9925841798</div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '3px' }}>
+                        <div><b>Name:</b> {customerName} | <b>PANT ( )</b></div>
+                        <div style={{ textAlign: 'right', fontSize: '11px' }}>
+                            <b>ID: {billNo}</b> | <b>D.: {deliveryDate}</b> | <b>Mo: {customerPhone}</b>
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: '16px' }}>
@@ -624,16 +622,14 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
 
                 {/* SHIRT SLIP */}
                 <div style={{ padding: '4px 6px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3px' }}>
-                        <div>
-                            <div style={{ fontWeight: 'bold', fontSize: '13px' }}>Name: {customerName}</div>
-                            <div style={{ fontWeight: 'bold', fontSize: '12px' }}>SHIRT ( ) {shirt.notes ? <span style={{ fontWeight: 'normal', fontSize: '10px' }}>{shirt.notes.split('\n')[0]}</span> : ''}</div>
-                        </div>
-                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '14px' }}>MAHESH TAILOR</div>
-                        <div style={{ textAlign: 'right' }}>
-                            <div style={{ fontSize: '16px', fontWeight: '900' }}>ID: {billNo}</div>
-                            <div style={{ fontSize: '11px', fontWeight: '900' }}>Mo: {customerPhone}</div>
-                            <div style={{ fontSize: '11px', fontWeight: '900' }}>D.: {deliveryDate}</div>
+                    <div style={{ position: 'relative', marginBottom: '4px' }}>
+                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '15px' }}>MAHESH TAILOR</div>
+                        <div style={{ position: 'absolute', top: 0, right: 0, fontSize: '15px', fontWeight: '900' }}>9925841798</div>
+                    </div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '3px' }}>
+                        <div><b>Name:</b> {customerName} | <b>SHIRT ( )</b> {shirt.notes ? <span style={{ fontWeight: 'normal', fontSize: '10px' }}>{shirt.notes.split('\n')[0]}</span> : ''}</div>
+                        <div style={{ textAlign: 'right', fontSize: '11px' }}>
+                            <b>ID: {billNo}</b> | <b>D.: {deliveryDate}</b> | <b>Mo: {customerPhone}</b>
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: '16px' }}>
@@ -676,14 +672,14 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
             <div style={{ fontFamily: 'Arial, sans-serif', fontSize: '10px', color: '#000' }}>
 
                 {/* TOP HEADER */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                    <div style={{ textAlign: 'left' }}>
+                <div style={{ position: 'relative', marginBottom: '8px' }}>
+                    <div style={{ textAlign: 'center' }}>
                         <div style={{ fontSize: '26px', fontWeight: '900', letterSpacing: '2px', lineHeight: 1 }}>MAHESH</div>
                         <div style={{ fontSize: '12px', fontWeight: 'bold', letterSpacing: '3px' }}>FASHION & TAILORS</div>
                         <div style={{ fontSize: '10px', marginTop: '4px', color: '#000', fontWeight: 'bold' }}>290, Ghansham Nagar, Street No.2, L.H Road, Surat</div>
                         <div style={{ fontSize: '11px', fontWeight: 'bold', marginTop: '2px' }}>Mo. 99258 41798</div>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
+                    <div style={{ position: 'absolute', top: 0, right: 0, textAlign: 'right' }}>
                         <div style={{ fontSize: '18px', fontWeight: '900' }}>9925841798</div>
                     </div>
                 </div>
