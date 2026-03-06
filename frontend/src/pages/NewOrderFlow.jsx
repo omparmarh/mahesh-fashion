@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../api';
 
@@ -317,7 +317,8 @@ export function BillingStep() {
         shirt = {}, pant = {}
     } = location.state || {};
 
-    const billNo = `BILL-${Date.now()}`;
+    const [billNo, setBillNo] = useState('...');
+    const [realOrderID, setRealOrderID] = useState('');
     const today = new Date().toLocaleDateString('en-IN');
     const deliveryDisplay = deliveryDate ? new Date(deliveryDate).toLocaleDateString('en-IN') : '';
 
@@ -329,6 +330,20 @@ export function BillingStep() {
     const [paymentMode, setPaymentMode] = useState('Cash');
     const [saving, setSaving] = useState(false);
     const [printTarget, setPrintTarget] = useState(null);
+
+    // BUG FIX: Pre-fetch next OrderID from backend to show a clean ID (e.g., 0001) immediately
+    useEffect(() => {
+        const fetchNextID = async () => {
+            try {
+                const { data } = await api.get('/new-order/next-id');
+                if (data.orderID) setBillNo(data.orderID);
+            } catch (err) {
+                console.error('Failed to fetch next ID:', err);
+                setBillNo(`T${Date.now().toString().slice(-6)}`); // Fallback to a cleaner temp ID
+            }
+        };
+        fetchNextID();
+    }, []);
 
     const subTotal = articles.reduce((s, a) => s + (Number(a.amount) || 0), 0);
     const grandTotal = subTotal + Number(stitchingCost || 0) + Number(fabricCost || 0) + Number(extraCost || 0);
@@ -345,8 +360,6 @@ export function BillingStep() {
 
     const addArticle = () => setArticles([...articles, { article: '', qty: 1, rate: 0, amount: 0 }]);
     const removeArticle = (i) => setArticles(articles.filter((_, idx) => idx !== i));
-
-    const [realOrderID, setRealOrderID] = useState('');
 
     const handlePrint = (target) => {
         setPrintTarget(target);
