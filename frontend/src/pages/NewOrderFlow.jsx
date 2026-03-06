@@ -589,15 +589,16 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
 
                 {/* PANT SLIP */}
                 <div style={{ padding: '4px 6px', borderBottom: '1px solid #000', marginBottom: '2px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3px' }}>
                         <div>
-                            <div style={{ fontWeight: 'bold', fontSize: '12px' }}>Name: {customerName}</div>
-                            <div style={{ fontWeight: 'bold' }}>PANT ( )</div>
+                            <div style={{ fontWeight: 'bold', fontSize: '13px' }}>Name: {customerName}</div>
+                            <div style={{ fontWeight: 'bold', fontSize: '12px' }}>PANT ( )</div>
                         </div>
-                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '13px' }}>MAHESH TAILOR</div>
-                        <div style={{ textAlign: 'right', fontSize: '11px' }}>
-                            <div>ID: <b>{billNo}</b></div>
-                            <div>D.: <b>{deliveryDate}</b></div>
+                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '14px' }}>MAHESH TAILOR</div>
+                        <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: '16px', fontWeight: '900' }}>ID: {billNo}</div>
+                            <div style={{ fontSize: '11px', fontWeight: '900' }}>Mo: {customerPhone}</div>
+                            <div style={{ fontSize: '11px', fontWeight: '900' }}>D.: {deliveryDate}</div>
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: '16px' }}>
@@ -623,15 +624,16 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
 
                 {/* SHIRT SLIP */}
                 <div style={{ padding: '4px 6px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '3px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3px' }}>
                         <div>
-                            <div style={{ fontWeight: 'bold', fontSize: '12px' }}>Name: {customerName}</div>
-                            <div style={{ fontWeight: 'bold' }}>SHIRT ( ) {shirt.notes ? <span style={{ fontWeight: 'normal', fontSize: '10px' }}>{shirt.notes.split('\n')[0]}</span> : ''}</div>
+                            <div style={{ fontWeight: 'bold', fontSize: '13px' }}>Name: {customerName}</div>
+                            <div style={{ fontWeight: 'bold', fontSize: '12px' }}>SHIRT ( ) {shirt.notes ? <span style={{ fontWeight: 'normal', fontSize: '10px' }}>{shirt.notes.split('\n')[0]}</span> : ''}</div>
                         </div>
-                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '13px' }}>MAHESH TAILOR</div>
-                        <div style={{ textAlign: 'right', fontSize: '11px' }}>
-                            <div>ID: <b>{billNo}</b></div>
-                            <div>D.: <b>{deliveryDate}</b></div>
+                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '14px' }}>MAHESH TAILOR</div>
+                        <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: '16px', fontWeight: '900' }}>ID: {billNo}</div>
+                            <div style={{ fontSize: '11px', fontWeight: '900' }}>Mo: {customerPhone}</div>
+                            <div style={{ fontSize: '11px', fontWeight: '900' }}>D.: {deliveryDate}</div>
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: '16px' }}>
@@ -674,11 +676,17 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
             <div style={{ fontFamily: 'Arial, sans-serif', fontSize: '10px', color: '#000' }}>
 
                 {/* TOP HEADER */}
-                <div style={{ textAlign: 'center', marginBottom: '8px' }}>
-                    <div style={{ fontSize: '26px', fontWeight: '900', letterSpacing: '2px', lineHeight: 1 }}>MAHESH</div>
-                    <div style={{ fontSize: '12px', fontWeight: 'bold', letterSpacing: '3px' }}>FASHION & TAILORS</div>
-                    <div style={{ fontSize: '10px', marginTop: '4px', color: '#000', fontWeight: 'bold' }}>290, Ghansham Nagar, Street No.2, L.H Road, Surat</div>
-                    <div style={{ fontSize: '12px', fontWeight: 'bold', marginTop: '2px' }}>Mo. 99258 41798</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+                    <div style={{ textAlign: 'left' }}>
+                        <div style={{ fontSize: '26px', fontWeight: '900', letterSpacing: '2px', lineHeight: 1 }}>MAHESH</div>
+                        <div style={{ fontSize: '12px', fontWeight: 'bold', letterSpacing: '3px' }}>FASHION & TAILORS</div>
+                        <div style={{ fontSize: '10px', marginTop: '4px', color: '#000', fontWeight: 'bold' }}>290, Ghansham Nagar, Street No.2, L.H Road, Surat</div>
+                        <div style={{ fontSize: '11px', fontWeight: 'bold', marginTop: '2px' }}>Mo. 99258 41798</div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontSize: '18px', fontWeight: '900' }}>ID: {billNo}</div>
+                        <div style={{ fontSize: '14px', fontWeight: '900' }}>Mo: {customerPhone}</div>
+                    </div>
                 </div>
 
                 <hr style={{ border: '1px solid #000', margin: '4px 0' }} />
@@ -686,11 +694,11 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
                 {/* CUSTOMER INFO */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2px', marginBottom: '4px' }}>
                     <div><strong>Name :</strong> {customerName}</div>
-                    <div style={{ textAlign: 'right' }}><strong>Order ID</strong> {billNo}</div>
-                    <div><strong>Mo :</strong> {customerPhone}</div>
-                    <div style={{ textAlign: 'right' }}><strong>Date</strong> {date}</div>
+                    <div style={{ textAlign: 'right' }}><strong>Order ID</strong> <b>{billNo}</b></div>
+                    <div><strong>Mo :</strong> <b>{customerPhone}</b></div>
+                    <div style={{ textAlign: 'right' }}><strong>Date</strong> <b>{date}</b></div>
                     <div></div>
-                    <div style={{ textAlign: 'right' }}><strong>Del. Date</strong> {deliveryDate}</div>
+                    <div style={{ textAlign: 'right' }}><strong>Del. Date</strong> <b>{deliveryDate}</b></div>
                 </div>
 
                 <hr style={{ border: '1px solid #000', margin: '4px 0' }} />
@@ -709,11 +717,11 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
                     <tbody>
                         {articles.map((a, i) => (
                             <tr key={i}>
-                                <td style={{ padding: '2px 3px' }}>{i + 1}</td>
+                                <td style={{ padding: '2px 3px' }}><b>{i + 1}</b></td>
                                 <td style={{ padding: '2px 3px' }}>{a.article}</td>
-                                <td style={{ textAlign: 'center', padding: '2px 3px' }}>{a.qty}</td>
-                                <td style={{ textAlign: 'right', padding: '2px 3px' }}>{a.rate}</td>
-                                <td style={{ textAlign: 'right', padding: '2px 3px' }}>{a.amount}</td>
+                                <td style={{ textAlign: 'center', padding: '2px 3px' }}><b>{a.qty}</b></td>
+                                <td style={{ textAlign: 'right', padding: '2px 3px' }}><b>{a.rate}</b></td>
+                                <td style={{ textAlign: 'right', padding: '2px 3px' }}><b>{a.amount}</b></td>
                             </tr>
                         ))}
                         {Array.from({ length: Math.max(0, 5 - articles.length) }).map((_, i) => (
@@ -724,10 +732,10 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
                         <tr style={{ borderTop: '1px solid #000' }}>
                             <td colSpan={2}></td>
                             <td style={{ textAlign: 'center', padding: '2px 3px', fontWeight: 'bold' }}>
-                                {articles.reduce((s, a) => s + (Number(a.qty) || 0), 0)}
+                                <b>{articles.reduce((s, a) => s + (Number(a.qty) || 0), 0)}</b>
                             </td>
                             <td style={{ textAlign: 'right', padding: '2px 3px', fontWeight: 'bold' }}>Sub Total :</td>
-                            <td style={{ textAlign: 'right', padding: '2px 3px', fontWeight: 'bold' }}>{subTotal}</td>
+                            <td style={{ textAlign: 'right', padding: '2px 3px', fontWeight: 'bold' }}><b>{subTotal}</b></td>
                         </tr>
                     </tfoot>
                 </table>
@@ -748,23 +756,23 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
                             <tbody>
                                 <tr>
                                     <td style={{ padding: '1px 0' }}>Extra :</td>
-                                    <td style={{ textAlign: 'right', padding: '1px 0' }}>{extraCost}</td>
+                                    <td style={{ textAlign: 'right', padding: '1px 0' }}><b>{extraCost}</b></td>
                                 </tr>
                                 <tr>
                                     <td style={{ padding: '1px 0' }}>Stitching Cost :</td>
-                                    <td style={{ textAlign: 'right', padding: '1px 0' }}>{stitchingCost}</td>
+                                    <td style={{ textAlign: 'right', padding: '1px 0' }}><b>{stitchingCost}</b></td>
                                 </tr>
                                 <tr>
                                     <td style={{ padding: '1px 0' }}>Fabric Amount :</td>
-                                    <td style={{ textAlign: 'right', padding: '1px 0' }}>{fabricCost}</td>
+                                    <td style={{ textAlign: 'right', padding: '1px 0' }}><b>{fabricCost}</b></td>
                                 </tr>
                                 <tr style={{ borderTop: '1px solid #000' }}>
                                     <td style={{ padding: '2px 0', fontWeight: 'bold' }}>Pay Amount :</td>
-                                    <td style={{ textAlign: 'right', fontWeight: 'bold', padding: '2px 0' }}>{payAmount}</td>
+                                    <td style={{ textAlign: 'right', fontWeight: 'bold', padding: '2px 0' }}><b>{payAmount}</b></td>
                                 </tr>
                                 <tr style={{ borderTop: '1px solid #000' }}>
                                     <td style={{ padding: '2px 0', fontWeight: 'bold' }}>Total Due :</td>
-                                    <td style={{ textAlign: 'right', fontWeight: 'bold', padding: '2px 0' }}>{totalDue}</td>
+                                    <td style={{ textAlign: 'right', fontWeight: 'bold', padding: '2px 0' }}><b>{totalDue}</b></td>
                                 </tr>
                             </tbody>
                         </table>
