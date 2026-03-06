@@ -548,7 +548,7 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
           }
         `}</style>
             )}
-            <div style={{ fontFamily: "'Courier New', monospace", fontSize: '10px', color: '#000', width: '100%' }}>
+            <div style={{ fontFamily: "'Courier New', monospace", fontSize: '11px', color: '#000', width: '100%' }}>
 
                 {/* PANT SLIP */}
                 <div style={{ padding: '4px 6px', borderBottom: '1px solid #000', marginBottom: '2px' }}>
@@ -564,7 +564,7 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: '16px' }}>
-                        <div style={{ flex: 1 }}>
+                        <div style={{ flex: 1, fontSize: '12px' }}>
                             <div><b>W:</b> <b>{val(pant.w)}</b></div>
                             <div><b>H:</b> <b>{val(pant.h)}</b></div>
                             <div><b>L:</b> <b>{val(pant.l1)} {val(pant.l2)}</b></div>
@@ -598,7 +598,7 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: '16px' }}>
-                        <div style={{ flex: 1 }}>
+                        <div style={{ flex: 1, fontSize: '12px' }}>
                             <div><b>C:</b> <b>{val(shirt.c1)} {val(shirt.c2)} {val(shirt.c3)}</b></div>
                             <div><b>F:</b> <b>{val(shirt.f)}</b></div>
                             <div><b>L:</b> <b>{val(shirt.l)}</b></div>
