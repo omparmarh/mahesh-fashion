@@ -684,8 +684,7 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
                         <div style={{ fontSize: '11px', fontWeight: 'bold', marginTop: '2px' }}>Mo. 99258 41798</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontSize: '18px', fontWeight: '900' }}>ID: {billNo}</div>
-                        <div style={{ fontSize: '14px', fontWeight: '900' }}>Mo: {customerPhone}</div>
+                        <div style={{ fontSize: '18px', fontWeight: '900' }}>9925841798</div>
                     </div>
                 </div>
 
