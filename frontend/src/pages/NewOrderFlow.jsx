@@ -661,13 +661,11 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
             <div style={{ fontFamily: 'Arial, sans-serif', fontSize: '10px', color: '#000' }}>
 
                 {/* TOP HEADER */}
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '4px' }}>
-                    <div>
-                        <div style={{ fontSize: '22px', fontWeight: '900', letterSpacing: '2px', lineHeight: 1 }}>MAHESH</div>
-                        <div style={{ fontSize: '10px', letterSpacing: '3px' }}>FASHION & TAILORS</div>
-                        <div style={{ fontSize: '9px', marginTop: '2px', color: '#333' }}>290, Ghansham Nagar, Street No.2, L.H Road, Surat</div>
-                    </div>
-                    <div style={{ textAlign: 'right', fontSize: '11px', fontWeight: 'bold' }}>Mo. 99258 41798</div>
+                <div style={{ textAlign: 'center', marginBottom: '8px' }}>
+                    <div style={{ fontSize: '26px', fontWeight: '900', letterSpacing: '2px', lineHeight: 1 }}>MAHESH</div>
+                    <div style={{ fontSize: '12px', fontWeight: 'bold', letterSpacing: '3px' }}>FASHION & TAILORS</div>
+                    <div style={{ fontSize: '10px', marginTop: '4px', color: '#000', fontWeight: 'bold' }}>290, Ghansham Nagar, Street No.2, L.H Road, Surat</div>
+                    <div style={{ fontSize: '12px', fontWeight: 'bold', marginTop: '2px' }}>Mo. 99258 41798</div>
                 </div>
 
                 <hr style={{ border: '1px solid #000', margin: '4px 0' }} />
