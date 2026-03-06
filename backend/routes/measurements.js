@@ -3,6 +3,7 @@ const auth = require('../middleware/auth');
 const Customer = require('../models/Customer');
 const Measurement = require('../models/Measurement');
 const Order = require('../models/Order');
+const History = require('../models/History');
 const generateOrderID = require('../utils/generateOrderID');
 
 // GET all customers/measurements (from DB)
@@ -155,6 +156,22 @@ router.put('/:id', auth, async (req, res) => {
         res.json(updatedCustomer);
     } catch (err) {
         res.status(400).json({ message: err.message });
+    }
+});
+
+// DELETE measurement by OrderID
+router.delete('/delete/:orderID', auth, async (req, res) => {
+    try {
+        const measurement = await Measurement.findOneAndDelete({ OrderID: req.params.orderID });
+        if (measurement && measurement.CustomerID) {
+            await Customer.findOneAndDelete({ ID: measurement.CustomerID });
+        }
+        await Order.findOneAndDelete({ OrderID: req.params.orderID });
+        await History.findOneAndDelete({ OrderID: req.params.orderID });
+
+        res.json({ message: 'Measurement deleted successfully' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
     }
 });
 

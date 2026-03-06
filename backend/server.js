@@ -50,8 +50,9 @@ app.use('/api/new-order', require('./routes/newOrder'));
 
 // Health check
 app.get('/', (req, res) => res.json({ message: 'Mahesh Fashion API (MongoDB Backend) running ✅' }));
+app.get('/health', (req, res) => res.status(200).send('OK'));
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+const PORT = process.env.PORT || 5001;
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running on port ${PORT} (Using MONGODB Backend)`);
 });

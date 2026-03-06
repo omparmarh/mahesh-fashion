@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
 import { Link } from 'react-router-dom';
-import { PencilSquareIcon, XMarkIcon, CheckIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, XMarkIcon, CheckIcon, TrashIcon } from '@heroicons/react/24/outline';
 
 export default function MeasurementListPage() {
     const [measurements, setMeasurements] = useState([]);
@@ -65,6 +65,16 @@ export default function MeasurementListPage() {
         }
     };
 
+    const handleDelete = async (orderID) => {
+        if (!window.confirm(`Are you sure you want to delete measurement for Order ${orderID}?`)) return;
+        try {
+            await api.delete(`/measurements/delete/${orderID}`);
+            fetchMeasurements();
+        } catch (err) {
+            alert(err.response?.data?.message || 'Failed to delete measurement');
+        }
+    };
+
     // Reusable small input for the modal
     const mInput = (field, label, span = 1) => (
         <div className={span > 1 ? `col-span-${span}` : ''}>
@@ -108,7 +118,7 @@ export default function MeasurementListPage() {
                             <th className="p-4" rowSpan="2">Phone</th>
                             <th className="p-2 border-l border-r text-center bg-gray-100 text-mahesh-maroon font-bold" colSpan="8">TOP (SHIRT)</th>
                             <th className="p-2 border-r text-center bg-gray-100 text-mahesh-gold font-bold" colSpan="7">BOTTOM (PANT)</th>
-                            <th className="p-4" rowSpan="2">Edit</th>
+                            <th className="p-4" rowSpan="2">Actions</th>
                         </tr>
                         <tr>
                             <th className="p-2 border-l">C</th>
@@ -170,14 +180,21 @@ export default function MeasurementListPage() {
                                     <td className="p-2 text-center font-mono">{m.Bot_B}</td>
                                     <td className="p-2 text-center font-mono border-r border-gray-200">{m.Bot_R}</td>
 
-                                    {/* Edit button */}
-                                    <td className="p-3 text-center">
+                                    {/* Actions */}
+                                    <td className="p-3 text-center space-x-2">
                                         <button
                                             onClick={() => openEdit(m)}
                                             className="text-mahesh-maroon hover:bg-red-50 p-1.5 rounded-lg transition-colors"
                                             title="Edit Measurements"
                                         >
                                             <PencilSquareIcon className="w-4 h-4" />
+                                        </button>
+                                        <button
+                                            onClick={() => handleDelete(m.OrderID)}
+                                            className="text-red-500 hover:bg-red-50 p-1.5 rounded-lg transition-colors"
+                                            title="Delete Measurement"
+                                        >
+                                            <TrashIcon className="w-4 h-4" />
                                         </button>
                                     </td>
                                 </tr>

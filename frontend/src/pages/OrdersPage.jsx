@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import api from '../api';
-import { PencilSquareIcon, ArrowDownTrayIcon, ChatBubbleLeftEllipsisIcon, EyeIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { PencilSquareIcon, ArrowDownTrayIcon, ChatBubbleLeftEllipsisIcon, EyeIcon, XMarkIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 
 export default function OrdersPage() {
@@ -65,6 +65,17 @@ export default function OrdersPage() {
             link.remove();
         } catch (err) {
             alert('Failed to export Excel');
+        }
+    };
+
+    const handleDelete = async (id) => {
+        if (window.confirm('Are you sure you want to delete this order? This action cannot be undone.')) {
+            try {
+                await api.delete(`/orders/${id}`);
+                setOrders(orders.filter(item => item.OrderID !== id));
+            } catch (err) {
+                alert('Failed to delete order');
+            }
         }
     };
 
@@ -183,6 +194,13 @@ export default function OrdersPage() {
                                     <Link to={`/billing/${order.OrderID}`} title="Create/Edit Bill" className="text-gray-600 hover:text-mahesh-maroon transition-colors">
                                         <PencilSquareIcon className="w-5 h-5" />
                                     </Link>
+                                    <button
+                                        onClick={() => handleDelete(order.OrderID)}
+                                        className="text-red-500 hover:text-red-700 transition-colors"
+                                        title="Delete Order"
+                                    >
+                                        <TrashIcon className="w-5 h-5" />
+                                    </button>
                                 </td>
                             </tr>
                         ))}

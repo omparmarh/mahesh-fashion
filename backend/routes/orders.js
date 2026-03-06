@@ -167,7 +167,13 @@ router.patch('/:id/status', auth, async (req, res) => {
 // DELETE order
 router.delete('/:id', auth, async (req, res) => {
     try {
-        await Order.findOneAndDelete({ OrderID: req.params.id });
+        const order = await Order.findOneAndDelete({ OrderID: req.params.id });
+        if (order && order.CustomerID) {
+            await Customer.findOneAndDelete({ ID: order.CustomerID });
+        }
+        await Measurement.findOneAndDelete({ OrderID: req.params.id });
+        await History.findOneAndDelete({ OrderID: req.params.id });
+
         res.json({ message: 'Deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });

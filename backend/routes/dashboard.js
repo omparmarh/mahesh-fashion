@@ -4,6 +4,7 @@ const Customer = require('../models/Customer');
 const Order = require('../models/Order');
 const Invoice = require('../models/Invoice');
 const History = require('../models/History');
+const Measurement = require('../models/Measurement');
 
 function parseDateValid(dateVal) {
     if (!dateVal) return new Date(NaN);
@@ -24,7 +25,10 @@ function parseDateValid(dateVal) {
             return new Date(`${parts[2]}-${parts[1].padStart(2, '0')}-${parts[0].padStart(2, '0')}`);
         }
     }
-    if (typeof dateVal === 'number') return new Date((dateVal - (25567 + 2)) * 86400 * 1000);
+    if (typeof dateVal === 'number') {
+        if (dateVal > 1e11) return new Date(dateVal); // Likely milliseconds
+        return new Date((dateVal - (25567 + 2)) * 86400 * 1000); // Excel format
+    }
     return new Date(NaN);
 }
 
@@ -49,8 +53,8 @@ router.get('/', auth, async (req, res) => {
         const allOrders = [...orders, ...history];
 
         const thisMonthOrders = allOrders.filter(o => {
-            const d = parseDateValid(o.Created || o.CreatedDate);
-            return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+            const d = parseDateValid(o.Created || o.CreatedDate || o.DeliveryDate);
+            return !isNaN(d.getTime()) && d.getMonth() === currentMonth && d.getFullYear() === currentYear;
         });
 
         const todayDateStr = now.toISOString().split('T')[0];
@@ -61,8 +65,10 @@ router.get('/', auth, async (req, res) => {
             return d.toISOString().split('T')[0] === todayDateStr;
         }).length;
 
+        const uniqueCustomers = new Set(customers.map(c => c.Phone)).size;
+
         const stats = {
-            totalCustomers: customers.length,
+            totalCustomers: uniqueCustomers,
             totalOrders: orders.length,
             todayOrders: todayOrders,
             pendingOrders: orders.filter(o => o.Status === 'Pending' || o.Status === 'Received').length,
@@ -82,8 +88,8 @@ router.get('/', auth, async (req, res) => {
             const monthLabel = d.toLocaleString('default', { month: 'short' });
 
             const monthData = allOrders.filter(o => {
-                const od = parseDateValid(o.Created || o.CreatedDate);
-                return od.getMonth() === m && od.getFullYear() === y;
+                const od = parseDateValid(o.Created || o.CreatedDate || o.DeliveryDate);
+                return !isNaN(od.getTime()) && od.getMonth() === m && od.getFullYear() === y;
             });
 
             monthlyStats.push({
@@ -113,4 +119,3 @@ router.get('/', auth, async (req, res) => {
 });
 
 module.exports = router;
-
