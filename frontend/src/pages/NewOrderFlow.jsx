@@ -806,17 +806,18 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                         <div><b>ID: {billNo}</b></div>
                         <div style={{ textAlign: 'right' }}>
                             <div><b>Date: {deliveryDate}</b></div>
-                            {pant.options && pant.options.length > 0 && (
-                                <div style={{ marginTop: '5px' }}>
-                                    {pant.options.map((opt, idx) => (
-                                        <div key={idx} style={{ fontSize: '20px', fontWeight: '900', color: '#000', lineHeight: '1.2' }}>
-                                            {opt}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
                         </div>
                     </div>
+
+                    {pant.options && pant.options.length > 0 && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginBottom: '10px' }}>
+                            {pant.options.map((opt, idx) => (
+                                <div key={idx} style={{ fontSize: '20px', fontWeight: '900', color: '#000', lineHeight: '1.2' }}>
+                                    {opt}
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
                     <div style={{ display: 'flex', gap: '20px', flex: 1 }}>
                         <div style={{ flex: 1, fontSize: '18px', lineHeight: '1.6' }}>
@@ -858,17 +859,18 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                         <div><b>ID: {billNo}</b></div>
                         <div style={{ textAlign: 'right' }}>
                             <div><b>Date: {deliveryDate}</b></div>
-                            {shirt.options && shirt.options.length > 0 && (
-                                <div style={{ marginTop: '5px' }}>
-                                    {shirt.options.map((opt, idx) => (
-                                        <div key={idx} style={{ fontSize: '20px', fontWeight: '900', color: '#000', lineHeight: '1.2' }}>
-                                            {opt}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
                         </div>
                     </div>
+
+                    {shirt.options && shirt.options.length > 0 && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginBottom: '10px' }}>
+                            {shirt.options.map((opt, idx) => (
+                                <div key={idx} style={{ fontSize: '20px', fontWeight: '900', color: '#000', lineHeight: '1.2' }}>
+                                    {opt}
+                                </div>
+                            ))}
+                        </div>
+                    )}
 
                     <div style={{ display: 'flex', gap: '20px', flex: 1 }}>
                         <div style={{ flex: 1, fontSize: '18px', lineHeight: '1.6' }}>
