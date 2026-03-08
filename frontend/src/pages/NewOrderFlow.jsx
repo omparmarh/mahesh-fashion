@@ -712,10 +712,9 @@ export function BillingStep() {
         </div>
     );
 }
-
 // ─── MEASUREMENT SLIP PRINT ───────────────────────────────────────────────────
 function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, deliveryDate, shirt, pant }) {
-    const val = (v) => (v ? `${v}//` : '—');
+    const val = (v) => (v ? `${v}//` : '');
 
     return (
         <div id="measurement-slip-print" style={{ display: 'none' }}>
@@ -724,83 +723,132 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
           @media print {
             body * { visibility: hidden !important; }
             #measurement-slip-print, #measurement-slip-print * { visibility: visible !important; }
-            #measurement-slip-print { position: fixed; top: 0; left: 0; width: 100%; display: block !important; }
-            @page { size: A6 portrait; margin: 2mm; }
+            #measurement-slip-print { 
+                position: fixed; 
+                top: 0; 
+                left: 0; 
+                width: 100%; 
+                height: 100vh;
+                display: flex !important; 
+                flex-direction: column;
+            }
+            @page { size: A6 portrait; margin: 0; }
           }
         `}</style>
             )}
-            <div style={{ fontFamily: "'Courier New', monospace", fontSize: '11px', color: '#000', width: '100%', fontWeight: 'bold' }}>
+            <div style={{
+                fontFamily: "'Courier New', monospace",
+                color: '#000',
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column'
+            }}>
 
-                {/* PANT SLIP */}
-                <div style={{ padding: '4px 6px', borderBottom: '1px solid #000', marginBottom: '2px' }}>
-                    <div style={{ position: 'relative', marginBottom: '4px' }}>
-                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '15px' }}>MAHESH TAILOR</div>
-                        <div style={{ position: 'absolute', top: 0, right: 0, fontSize: '15px', fontWeight: '900' }}>9925841798</div>
-                    </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '3px' }}>
-                        <div><b>Name:</b> {customerName} | <b>PANT ( )</b></div>
-                        <div style={{ textAlign: 'right', fontSize: '11px' }}>
-                            <b>ID: {billNo}</b> | <b>D.: {deliveryDate}</b> | <b>Mo: {customerPhone}</b>
+                {/* PANT SLIP (TOP HALF) */}
+                <div style={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    padding: '10px 15px',
+                    borderBottom: '2px dashed #000',
+                    position: 'relative'
+                }}>
+                    <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+                        <div style={{ fontWeight: '900', fontSize: '20px' }}>MAHESH TAILOR</div>
+                        <div style={{ fontSize: '14px', marginTop: '2px' }}>
+                            <b>Name:</b> {customerName} | <b>PANT ( )</b>
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '16px' }}>
-                        <div style={{ flex: 1, fontSize: '12px' }}>
-                            <div><b>W:</b> <b>{val(pant.w)}</b></div>
-                            <div><b>H:</b> <b>{val(pant.h)}</b></div>
-                            <div><b>L:</b> <b>{val(pant.l1)} {val(pant.l2)}</b></div>
-                            <div><b>T:</b> <b>{val(pant.t)}</b></div>
-                            <div><b>K:</b> <b>{val(pant.k)}</b></div>
-                            <div><b>B:</b> <b>{val(pant.b)}</b></div>
-                            <div><b>R:</b> <b>{val(pant.r)}</b></div>
+
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '8px', borderBottom: '1px solid #ccc', pb: '4px' }}>
+                        <div><b>ID: {billNo}</b></div>
+                        <div><b>Date: {deliveryDate}</b></div>
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '20px', flex: 1 }}>
+                        <div style={{ flex: 1, fontSize: '18px', lineHeight: '1.6' }}>
+                            <div><b>W:</b> <b style={{ fontSize: '20px' }}>{val(pant.w)}</b></div>
+                            <div><b>H:</b> <b style={{ fontSize: '20px' }}>{val(pant.h)}</b></div>
+                            <div><b>L:</b> <b style={{ fontSize: '20px' }}>{val(pant.l1)} {val(pant.l2)}</b></div>
+                            <div><b>T:</b> <b style={{ fontSize: '20px' }}>{val(pant.t)}</b></div>
+                            <div><b>K:</b> <b style={{ fontSize: '20px' }}>{val(pant.k)}</b></div>
+                            <div><b>B:</b> <b style={{ fontSize: '20px' }}>{val(pant.b)}</b></div>
+                            <div><b>R:</b> <b style={{ fontSize: '20px' }}>{val(pant.r)}</b></div>
                         </div>
-                        {pant.notes && (
-                            <div style={{ fontSize: '10px', borderLeft: '1px dashed #999', paddingLeft: '8px', maxWidth: '40%', whiteSpace: 'pre-wrap', fontWeight: 'bold' }}>
-                                {pant.notes}
-                            </div>
-                        )}
-                        {pant.options && pant.options.length > 0 && (
-                            <div style={{ fontSize: '9px', borderLeft: '1px solid #000', paddingLeft: '8px', maxWidth: '30%', fontWeight: '900' }}>
-                                {pant.options.join(', ')}
-                            </div>
-                        )}
+                        <div style={{ width: '45%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {pant.notes && (
+                                <div style={{ fontSize: '11px', border: '1px solid #ddd', padding: '5px', borderRadius: '4px', fontWeight: 'bold' }}>
+                                    {pant.notes}
+                                </div>
+                            )}
+                            {pant.options && pant.options.length > 0 && (
+                                <div style={{ fontSize: '10px', fontWeight: '900', background: '#f5f5f5', padding: '5px', borderRadius: '4px' }}>
+                                    {pant.options.join(', ')}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
 
-                {/* CUT LINE */}
-                <div style={{ borderTop: '1px dashed #000', margin: '4px 0', textAlign: 'center', fontSize: '9px', color: '#666' }}>✂ cut here</div>
+                {/* SHIRT SLIP (BOTTOM HALF) */}
+                <div style={{
+                    flex: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    padding: '10px 15px',
+                    position: 'relative'
+                }}>
+                    <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+                        <div style={{ fontWeight: '900', fontSize: '20px' }}>MAHESH TAILOR</div>
+                        <div style={{ fontSize: '14px', marginTop: '2px' }}>
+                            <b>Name:</b> {customerName} | <b>SHIRT ( )</b>
+                        </div>
+                    </div>
 
-                {/* SHIRT SLIP */}
-                <div style={{ padding: '4px 6px' }}>
-                    <div style={{ position: 'relative', marginBottom: '4px' }}>
-                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '15px' }}>MAHESH TAILOR</div>
-                        <div style={{ position: 'absolute', top: 0, right: 0, fontSize: '15px', fontWeight: '900' }}>9925841798</div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '8px', borderBottom: '1px solid #ccc', pb: '4px' }}>
+                        <div><b>ID: {billNo}</b></div>
+                        <div><b>Date: {deliveryDate}</b></div>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '3px' }}>
-                        <div><b>Name:</b> {customerName} | <b>SHIRT ( )</b> {shirt.notes ? <span style={{ fontWeight: 'normal', fontSize: '10px' }}>{shirt.notes.split('\n')[0]}</span> : ''}</div>
-                        <div style={{ textAlign: 'right', fontSize: '11px' }}>
-                            <b>ID: {billNo}</b> | <b>D.: {deliveryDate}</b> | <b>Mo: {customerPhone}</b>
+
+                    <div style={{ display: 'flex', gap: '20px', flex: 1 }}>
+                        <div style={{ flex: 1, fontSize: '18px', lineHeight: '1.6' }}>
+                            <div><b>C:</b> <b style={{ fontSize: '20px' }}>{val(shirt.c1)} {val(shirt.c2)} {val(shirt.c3)}</b></div>
+                            <div><b>F:</b> <b style={{ fontSize: '20px' }}>{val(shirt.f)}</b></div>
+                            <div><b>L:</b> <b style={{ fontSize: '20px' }}>{val(shirt.l)}</b></div>
+                            <div><b>So:</b> <b style={{ fontSize: '20px' }}>{val(shirt.so)}</b></div>
+                            <div><b>S:</b> <b style={{ fontSize: '20px' }}>{val(shirt.s1)}</b></div>
+                            <div><b>Ku:</b> <b style={{ fontSize: '20px' }}>{val(shirt.ku1)} {val(shirt.ku2)}</b></div>
+                            <div><b>Ko:</b> <b style={{ fontSize: '20px' }}>{val(shirt.ko1)} {val(shirt.ko2)}</b></div>
+                        </div>
+                        <div style={{ width: '45%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                            {shirt.notes && (
+                                <div style={{ fontSize: '11px', border: '1px solid #ddd', padding: '5px', borderRadius: '4px', fontWeight: 'bold' }}>
+                                    {shirt.notes}
+                                </div>
+                            )}
+                            {shirt.options && shirt.options.length > 0 && (
+                                <div style={{ fontSize: '10px', fontWeight: '900', background: '#f5f5f5', padding: '5px', borderRadius: '4px' }}>
+                                    {shirt.options.join(', ')}
+                                </div>
+                            )}
                         </div>
                     </div>
-                    <div style={{ display: 'flex', gap: '16px' }}>
-                        <div style={{ flex: 1, fontSize: '12px' }}>
-                            <div><b>C:</b> <b>{val(shirt.c1)} {val(shirt.c2)} {val(shirt.c3)}</b></div>
-                            <div><b>F:</b> <b>{val(shirt.f)}</b></div>
-                            <div><b>L:</b> <b>{val(shirt.l)}</b></div>
-                            <div><b>So:</b> <b>{val(shirt.so)}</b></div>
-                            <div><b>S:</b> <b>{val(shirt.s1)} <span style={{ marginLeft: '8px' }}>K:</span> {val(shirt.k)}</b></div>
-                            <div><b>Ku:</b> <b>{val(shirt.ku1)} {val(shirt.ku2)}</b></div>
-                            <div><b>Ko:</b> <b>{val(shirt.ko1)} {val(shirt.ko2)}</b></div>
-                        </div>
-                        {shirt.notes && (
-                            <div style={{ fontSize: '10px', borderLeft: '1px dashed #999', paddingLeft: '8px', maxWidth: '40%', whiteSpace: 'pre-wrap', fontWeight: 'bold' }}>
-                                {shirt.notes}
-                            </div>
-                        )}
-                        {shirt.options && shirt.options.length > 0 && (
-                            <div style={{ fontSize: '9px', borderLeft: '1px solid #000', paddingLeft: '8px', maxWidth: '30%', fontWeight: '900' }}>
-                                {shirt.options.join(', ')}
-                            </div>
-                        )}
+
+                    {/* K moved to bottom right */}
+                    <div style={{
+                        position: 'absolute',
+                        bottom: '20px',
+                        right: '25px',
+                        border: '2px solid #000',
+                        padding: '8px 15px',
+                        borderRadius: '4px',
+                        textAlign: 'center'
+                    }}>
+                        <div style={{ fontSize: '12px', marginBottom: '2px' }}>K</div>
+                        <div style={{ fontSize: '24px', fontWeight: '900' }}>{val(shirt.k)}</div>
                     </div>
                 </div>
 
