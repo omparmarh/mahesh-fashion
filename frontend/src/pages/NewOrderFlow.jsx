@@ -484,15 +484,34 @@ export function BillingStep() {
         const updated = [...articles];
         updated[i][field] = val;
 
-        // Auto-fill rate based on quantity
+        // Auto-fill rate based on quantity with dynamic extras
         if (field === 'qty') {
             const newQty = Number(val) || 0;
             const articleName = updated[i].article.toUpperCase();
 
             if (newQty > 0 && (Number(updated[i].rate) === 0)) {
-                if (DEFAULT_RATES[articleName]) {
-                    updated[i].rate = DEFAULT_RATES[articleName];
+                let base = DEFAULT_RATES[articleName] || 0;
+                let extra = 0;
+
+                const shirtOptions = shirt.options || [];
+                const pantOptions = pant.options || [];
+
+                const hasLogo = shirtOptions.includes('લોગો');
+                const hasGroup = pantOptions.includes('ગ્રુપ');
+                const hasGroupChirva = pantOptions.includes('ગ્રુપ + ચીરવા');
+
+                if (articleName === 'SHIRT') {
+                    if (hasLogo) extra += 50;
+                } else if (articleName === 'PANT') {
+                    if (hasGroupChirva) extra += 100;
+                    else if (hasGroup) extra += 50;
+                } else if (articleName === 'JODI') {
+                    if (hasLogo) extra += 50;
+                    if (hasGroupChirva) extra += 100;
+                    else if (hasGroup) extra += 50;
                 }
+
+                updated[i].rate = base + extra;
             } else if (newQty === 0) {
                 updated[i].rate = 0;
             }
