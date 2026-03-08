@@ -804,7 +804,14 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '8px', borderBottom: '1px solid #ccc', pb: '4px' }}>
                         <div><b>ID: {billNo}</b></div>
-                        <div><b>Date: {deliveryDate}</b></div>
+                        <div style={{ textAlign: 'right' }}>
+                            <div><b>Date: {deliveryDate}</b></div>
+                            {pant.options && pant.options.length > 0 && (
+                                <div style={{ fontSize: '14px', fontWeight: '900', color: '#000', marginTop: '2px' }}>
+                                    {pant.options.join(', ')}
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     <div style={{ display: 'flex', gap: '20px', flex: 1 }}>
@@ -821,11 +828,6 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                             {pant.notes && (
                                 <div style={{ fontSize: '11px', border: '1px solid #ddd', padding: '5px', borderRadius: '4px', fontWeight: 'bold' }}>
                                     {pant.notes}
-                                </div>
-                            )}
-                            {pant.options && pant.options.length > 0 && (
-                                <div style={{ fontSize: '10px', fontWeight: '900', background: '#f5f5f5', padding: '5px', borderRadius: '4px' }}>
-                                    {pant.options.join(', ')}
                                 </div>
                             )}
                         </div>
@@ -850,7 +852,14 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '13px', marginBottom: '8px', borderBottom: '1px solid #ccc', pb: '4px' }}>
                         <div><b>ID: {billNo}</b></div>
-                        <div><b>Date: {deliveryDate}</b></div>
+                        <div style={{ textAlign: 'right' }}>
+                            <div><b>Date: {deliveryDate}</b></div>
+                            {shirt.options && shirt.options.length > 0 && (
+                                <div style={{ fontSize: '14px', fontWeight: '900', color: '#000', marginTop: '2px' }}>
+                                    {shirt.options.join(', ')}
+                                </div>
+                            )}
+                        </div>
                     </div>
 
                     <div style={{ display: 'flex', gap: '20px', flex: 1 }}>
@@ -867,11 +876,6 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                             {shirt.notes && (
                                 <div style={{ fontSize: '11px', border: '1px solid #ddd', padding: '5px', borderRadius: '4px', fontWeight: 'bold' }}>
                                     {shirt.notes}
-                                </div>
-                            )}
-                            {shirt.options && shirt.options.length > 0 && (
-                                <div style={{ fontSize: '10px', fontWeight: '900', background: '#f5f5f5', padding: '5px', borderRadius: '4px' }}>
-                                    {shirt.options.join(', ')}
                                 </div>
                             )}
                         </div>
