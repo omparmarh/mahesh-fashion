@@ -155,8 +155,16 @@ export function MeasurementsStep() {
     const [pant, setPant] = useState({ w: '', h: '', l1: '', l2: '', t: '', k: '', b: '', r: '', notes: '', options: [] });
     const [error, setError] = useState('');
 
-    const shirtOptionList = ['ઓપન', 'બુ શર્ટ', 'ઓપન ટીશર્ટ', 'ઉપર 2 પોકેટ', 'ઉપર 2 પોકેટ ઢાકણા વાળા', 'બોમ્બે પટ્ટી', 'અંદર પોકેટ', 'સ્ટેન્ડ પટ્ટી', 'ફેન્સી બટન', 'લોગો', 'પોકેટ નથી', 'પેટન કરવી', 'પાછળ તક્ષ', 'ફોડ પટ્ટી', 'V શોલ્ડર', 'ગાજ પટ્ટી ફોડ', 'પેન્ટ ના કપડાની ટેન પટ્ટી', 'ટેન પટ્ટી માં પાઈપિંગ', 'કોલર કફ ગાજ માં પટ્ટી', 'હાફ બાઈ માં ફોડ પટ્ટી', 'બાઈ પટ્ટી ગાજ બટન'];
-    const pantOptionList = ['કોસ પોકેટ', '2 ચપટી શોની', '1 ચપટી શોની', '3 ચપટી શોની', 'V ચપટી', 'L પોકેટ', '2 વોચ પોકેટ', 'વોચ મોટી', 'કટ બેલ્ટ', 'કટ બેલ્ટ માં ગાજ', 'લોન્ગ બેલ્ટ', 'લોન્ગ બેલ્ટ માં ગાજ', '2 પોકેટ', '1 પોકેટ', 'મોબાઈલ પોકેટ', 'પેટન કરવી', 'લુક્સ મોટા', 'સાઈડ પોકેટ', 'આડી ઇંચી', 'જીન્સ ટાઇપ', 'પાછળ પોકેટ માં લૂપી', 'ગ્રુપ', 'ગ્રુપ + ચીરવા'];
+    const shirtColumns = [
+        ['ઓપન', 'બુ શર્ટ', 'ઓપન ટીશર્ટ', 'ઉપર 2 પોકેટ', 'ઉપર 2 પોકેટ ઢાકણા વાળા', 'બોમ્બે પટ્ટી', 'અંદર પોકેટ', 'સ્ટેન્ડ પટ્ટી', 'ફેન્સી બટન'],
+        ['લોગો', 'પોકેટ નથી', 'પેટન કરવી', 'પાછળ તક્ષ', 'ફોડ પટ્ટી', 'V શોલ્ડર', 'ગાજ પટ્ટી ફોડ', 'પેન્ટ ના કપડાની ટેન પટ્ટી', 'ટેન પટ્ટી માં પાઈપિંગ'],
+        ['કોલર કફ ગાજ માં પટ્ટી', 'હાફ બાઈ માં ફોડ પટ્ટી', 'બાઈ પટ્ટી ગાજ બટન']
+    ];
+    const pantColumns = [
+        ['કોસ પોકેટ', '2 ચપટી શોની', '1 ચપટી શોની', '3 ચપટી શોની', 'V ચપટી', 'L પોકેટ', '2 વોચ પોકેટ', 'વોચ મોટી', 'કટ બેલ્ટ'],
+        ['કટ બેલ્ટ માં ગાજ', 'લોન્ગ બેલ્ટ', 'લોન્ગ બેલ્ટ માં ગાજ', '2 પોકેટ', '1 પોકેટ', 'મોબાઈલ પોકેટ', 'પેટન કરવી', 'લુક્સ મોટા', 'સાઈડ પોકેટ'],
+        ['આડી ઇંચી', 'જીન્સ ટાઇપ', 'પાછળ પોકેટ માં લૂપી', 'ગ્રુપ', 'ગ્રુપ + ચીરવા']
+    ];
 
     const updateShirt = (field, val) => setShirt((p) => ({ ...p, [field]: val }));
     const updatePant = (field, val) => setPant((p) => ({ ...p, [field]: val }));
@@ -306,17 +314,21 @@ export function MeasurementsStep() {
                         </div>
                         <div className="col-span-2 md:col-span-4 border-t pt-4 mt-2">
                             <label className="text-xs font-bold text-gray-600 mb-3 block">SHIRT OPTIONS</label>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-4">
-                                {shirtOptionList.map(opt => (
-                                    <label key={opt} className="flex items-center gap-2 cursor-pointer group">
-                                        <input
-                                            type="checkbox"
-                                            className="w-4 h-4 rounded border-gray-300 text-mahesh-maroon focus:ring-mahesh-maroon"
-                                            checked={shirt.options.includes(opt)}
-                                            onChange={() => toggleShirtOption(opt)}
-                                        />
-                                        <span className={`text-sm transition-colors ${shirt.options.includes(opt) ? 'text-mahesh-maroon font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>{opt}</span>
-                                    </label>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {shirtColumns.map((col, ci) => (
+                                    <div key={ci} className="flex flex-col gap-2">
+                                        {col.map(opt => (
+                                            <label key={opt} className="flex items-center gap-2 cursor-pointer group">
+                                                <input
+                                                    type="checkbox"
+                                                    className="w-4 h-4 rounded border-gray-300 text-mahesh-maroon focus:ring-mahesh-maroon"
+                                                    checked={shirt.options.includes(opt)}
+                                                    onChange={() => toggleShirtOption(opt)}
+                                                />
+                                                <span className={`text-sm transition-colors ${shirt.options.includes(opt) ? 'text-mahesh-maroon font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>{opt}</span>
+                                            </label>
+                                        ))}
+                                    </div>
                                 ))}
                             </div>
                         </div>
@@ -373,17 +385,21 @@ export function MeasurementsStep() {
                         </div>
                         <div className="col-span-2 md:col-span-4 border-t pt-4 mt-2">
                             <label className="text-xs font-bold text-gray-600 mb-3 block">PANT OPTIONS</label>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-4">
-                                {pantOptionList.map(opt => (
-                                    <label key={opt} className="flex items-center gap-2 cursor-pointer group">
-                                        <input
-                                            type="checkbox"
-                                            className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
-                                            checked={pant.options.includes(opt)}
-                                            onChange={() => togglePantOption(opt)}
-                                        />
-                                        <span className={`text-sm transition-colors ${pant.options.includes(opt) ? 'text-amber-700 font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>{opt}</span>
-                                    </label>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                {pantColumns.map((col, ci) => (
+                                    <div key={ci} className="flex flex-col gap-2">
+                                        {col.map(opt => (
+                                            <label key={opt} className="flex items-center gap-2 cursor-pointer group">
+                                                <input
+                                                    type="checkbox"
+                                                    className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                                                    checked={pant.options.includes(opt)}
+                                                    onChange={() => togglePantOption(opt)}
+                                                />
+                                                <span className={`text-sm transition-colors ${pant.options.includes(opt) ? 'text-amber-700 font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>{opt}</span>
+                                            </label>
+                                        ))}
+                                    </div>
                                 ))}
                             </div>
                         </div>
