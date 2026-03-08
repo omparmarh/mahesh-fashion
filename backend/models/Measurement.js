@@ -21,6 +21,7 @@ const measurementSchema = new mongoose.Schema({
     Top_Ko2: { type: String, default: '' },
     Top_K: { type: String, default: '' },
     Top_Notes: { type: String, default: '' },
+    Top_Options: { type: [String], default: [] },
 
     // Bottom Measurements
     Bot_W: { type: String, default: '' },
@@ -32,6 +33,7 @@ const measurementSchema = new mongoose.Schema({
     Bot_B: { type: String, default: '' },
     Bot_R: { type: String, default: '' },
     Bot_Notes: { type: String, default: '' },
+    Bot_Options: { type: [String], default: [] },
 });
 
 module.exports = mongoose.model('Measurement', measurementSchema);

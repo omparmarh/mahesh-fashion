@@ -151,12 +151,29 @@ export function MeasurementsStep() {
     const { customerName = '', customerPhone = '' } = location.state || {};
 
     const [deliveryDate, setDeliveryDate] = useState('');
-    const [shirt, setShirt] = useState({ c1: '', c2: '', c3: '', f: '', l: '', so: '', s1: '', s2: '', ku1: '', ku2: '', ko1: '', ko2: '', k: '', notes: '' });
-    const [pant, setPant] = useState({ w: '', h: '', l1: '', l2: '', t: '', k: '', b: '', r: '', notes: '' });
+    const [shirt, setShirt] = useState({ c1: '', c2: '', c3: '', f: '', l: '', so: '', s1: '', s2: '', ku1: '', ku2: '', ko1: '', ko2: '', k: '', notes: '', options: [] });
+    const [pant, setPant] = useState({ w: '', h: '', l1: '', l2: '', t: '', k: '', b: '', r: '', notes: '', options: [] });
     const [error, setError] = useState('');
+
+    const shirtOptionList = ['ઓપન', 'બુ શર્ટ', 'ઓપન ટીશર્ટ', 'ઉપર 2 પોકેટ', 'ઉપર 2 પોકેટ ઢાકણા વાળા', 'બોમ્બે પટ્ટી', 'અંદર પોકેટ', 'સ્ટેન્ડ પટ્ટી', 'ફેન્સી બટન', 'લોગો', 'પોકેટ નથી', 'પેટન કરવી', 'પાછળ તક્ષ', 'ફોડ પટ્ટી', 'V શોલ્ડર', 'ગાજ પટ્ટી ફોડ', 'પેન્ટ ના કપડાની ટેન પટ્ટી', 'ટેન પટ્ટી માં પાઈપિંગ', 'કોલર કફ ગાજ માં પટ્ટી', 'હાફ બાઈ માં ફોડ પટ્ટી', 'બાઈ પટ્ટી ગાજ બટન'];
+    const pantOptionList = ['કોસ પોકેટ', '2 ચપટી શોની', '1 ચપટી શોની', '3 ચપટી શોની', 'V ચપટી', 'L પોકેટ', '2 વોચ પોકેટ', 'વોચ મોટી', 'કટ બેલ્ટ', 'કટ બેલ્ટ માં ગાજ', 'લોન્ગ બેલ્ટ', 'લોન્ગ બેલ્ટ માં ગાજ', '2 પોકેટ', '1 પોકેટ', 'મોબાઈલ પોકેટ', 'પેટન કરવી', 'લુક્સ મોટા', 'સાઈડ પોકેટ', 'આડી ઇંચી', 'જીન્સ ટાઇપ', 'પાછળ પોકેટ માં લૂપી', 'ગ્રુપ', 'ગ્રુપ + ચીરવા'];
 
     const updateShirt = (field, val) => setShirt((p) => ({ ...p, [field]: val }));
     const updatePant = (field, val) => setPant((p) => ({ ...p, [field]: val }));
+
+    const toggleShirtOption = (opt) => {
+        setShirt(p => ({
+            ...p,
+            options: p.options.includes(opt) ? p.options.filter(o => o !== opt) : [...p.options, opt]
+        }));
+    };
+
+    const togglePantOption = (opt) => {
+        setPant(p => ({
+            ...p,
+            options: p.options.includes(opt) ? p.options.filter(o => o !== opt) : [...p.options, opt]
+        }));
+    };
 
     const handleKeyDownNext = (e) => {
         if (e.key === 'Enter') {
@@ -287,6 +304,22 @@ export function MeasurementsStep() {
                             <label className="text-xs font-bold text-gray-600 mb-1 block">K</label>
                             {mInput(shirt.k, (v) => updateShirt('k', v))}
                         </div>
+                        <div className="col-span-2 md:col-span-4 border-t pt-4 mt-2">
+                            <label className="text-xs font-bold text-gray-600 mb-3 block">SHIRT OPTIONS</label>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-4">
+                                {shirtOptionList.map(opt => (
+                                    <label key={opt} className="flex items-center gap-2 cursor-pointer group">
+                                        <input
+                                            type="checkbox"
+                                            className="w-4 h-4 rounded border-gray-300 text-mahesh-maroon focus:ring-mahesh-maroon"
+                                            checked={shirt.options.includes(opt)}
+                                            onChange={() => toggleShirtOption(opt)}
+                                        />
+                                        <span className={`text-sm transition-colors ${shirt.options.includes(opt) ? 'text-mahesh-maroon font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>{opt}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
                         <div className="col-span-2 md:col-span-4">
                             <label className="text-xs font-bold text-gray-600 mb-1 block">Shirt Notes (e.g. બ્લૂ શર્ટ, 2 chipati sirava)</label>
                             <textarea
@@ -337,6 +370,22 @@ export function MeasurementsStep() {
                         <div>
                             <label className="text-xs font-bold text-gray-600 mb-1 block">R (Rise)</label>
                             {mInput(pant.r, (v) => updatePant('r', v))}
+                        </div>
+                        <div className="col-span-2 md:col-span-4 border-t pt-4 mt-2">
+                            <label className="text-xs font-bold text-gray-600 mb-3 block">PANT OPTIONS</label>
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-y-2 gap-x-4">
+                                {pantOptionList.map(opt => (
+                                    <label key={opt} className="flex items-center gap-2 cursor-pointer group">
+                                        <input
+                                            type="checkbox"
+                                            className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                                            checked={pant.options.includes(opt)}
+                                            onChange={() => togglePantOption(opt)}
+                                        />
+                                        <span className={`text-sm transition-colors ${pant.options.includes(opt) ? 'text-amber-700 font-bold' : 'text-gray-600 group-hover:text-gray-900'}`}>{opt}</span>
+                                    </label>
+                                ))}
+                            </div>
                         </div>
                         <div className="col-span-2 md:col-span-4">
                             <label className="text-xs font-bold text-gray-600 mb-1 block">Pant Notes (e.g. લોન્ગ બેલ્ટ, 1 પોકેટ)</label>
@@ -690,8 +739,13 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                             <div><b>R:</b> <b>{val(pant.r)}</b></div>
                         </div>
                         {pant.notes && (
-                            <div style={{ fontSize: '10px', borderLeft: '1px dashed #999', paddingLeft: '8px', maxWidth: '45%', whiteSpace: 'pre-wrap', fontWeight: 'bold' }}>
+                            <div style={{ fontSize: '10px', borderLeft: '1px dashed #999', paddingLeft: '8px', maxWidth: '40%', whiteSpace: 'pre-wrap', fontWeight: 'bold' }}>
                                 {pant.notes}
+                            </div>
+                        )}
+                        {pant.options && pant.options.length > 0 && (
+                            <div style={{ fontSize: '9px', borderLeft: '1px solid #000', paddingLeft: '8px', maxWidth: '30%', fontWeight: '900' }}>
+                                {pant.options.join(', ')}
                             </div>
                         )}
                     </div>
@@ -723,8 +777,13 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                             <div><b>Ko:</b> <b>{val(shirt.ko1)} {val(shirt.ko2)} <span style={{ marginLeft: '8px' }}>K:</span> {val(shirt.k)}</b></div>
                         </div>
                         {shirt.notes && (
-                            <div style={{ fontSize: '10px', borderLeft: '1px dashed #999', paddingLeft: '8px', maxWidth: '45%', whiteSpace: 'pre-wrap', fontWeight: 'bold' }}>
+                            <div style={{ fontSize: '10px', borderLeft: '1px dashed #999', paddingLeft: '8px', maxWidth: '40%', whiteSpace: 'pre-wrap', fontWeight: 'bold' }}>
                                 {shirt.notes}
+                            </div>
+                        )}
+                        {shirt.options && shirt.options.length > 0 && (
+                            <div style={{ fontSize: '9px', borderLeft: '1px solid #000', paddingLeft: '8px', maxWidth: '30%', fontWeight: '900' }}>
+                                {shirt.options.join(', ')}
                             </div>
                         )}
                     </div>

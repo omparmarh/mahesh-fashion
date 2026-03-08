@@ -52,11 +52,13 @@ router.post('/complete', auth, async (req, res) => {
             Top_Ko1: shirt?.ko1 || '', Top_Ko2: shirt?.ko2 || '',
             Top_K: shirt?.k || '',
             Top_Notes: shirt?.notes || '',
+            Top_Options: shirt?.options || [],
             Bot_W: pant?.w || '', Bot_H: pant?.h || '',
             Bot_L1: pant?.l1 || '', Bot_L2: pant?.l2 || '',
             Bot_T: pant?.t || '', Bot_K: pant?.k || '',
             Bot_B: pant?.b || '', Bot_R: pant?.r || '',
-            Bot_Notes: pant?.notes || ''
+            Bot_Notes: pant?.notes || '',
+            Bot_Options: pant?.options || []
         });
 
         // 3. Create Order
