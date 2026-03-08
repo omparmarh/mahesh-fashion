@@ -735,7 +735,7 @@ export function BillingStep() {
 }
 // ─── MEASUREMENT SLIP PRINT ───────────────────────────────────────────────────
 function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, deliveryDate, shirt, pant }) {
-    const val = (v) => (v ? `${v}//` : '');
+    const val = (v) => (v ? v : '');
 
     return (
         <div id="measurement-slip-print" style={{ display: 'none' }}>
