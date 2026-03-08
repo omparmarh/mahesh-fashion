@@ -151,7 +151,7 @@ export function MeasurementsStep() {
     const { customerName = '', customerPhone = '' } = location.state || {};
 
     const [deliveryDate, setDeliveryDate] = useState('');
-    const [shirt, setShirt] = useState({ c1: '', c2: '', c3: '', f: '', l: '', so: '', s1: '', s2: '', ku1: '', ku2: '', ko1: '', ko2: '', k: '', notes: '', options: [] });
+    const [shirt, setShirt] = useState({ c1: '', c2: '', c3: '', f: '', l: '', so: '', s1: '', ku1: '', ku2: '', ko1: '', ko2: '', k: '', notes: '', options: [] });
     const [pant, setPant] = useState({ w: '', h: '', l1: '', l2: '', t: '', k: '', b: '', r: '', notes: '', options: [] });
     const [error, setError] = useState('');
 
@@ -288,10 +288,10 @@ export function MeasurementsStep() {
                             {mInput(shirt.so, (v) => updateShirt('so', v))}
                         </div>
                         <div>
-                            <label className="text-xs font-bold text-gray-600 mb-1 block">S (Sleeve)</label>
+                            <label className="text-xs font-bold text-gray-600 mb-1 block">S / K (Sleeve / K)</label>
                             <div className="flex gap-1">
-                                {mInput(shirt.s1, (v) => updateShirt('s1', v), 'S1')}
-                                {mInput(shirt.s2, (v) => updateShirt('s2', v), 'S2')}
+                                {mInput(shirt.s1, (v) => updateShirt('s1', v), 'S')}
+                                {mInput(shirt.k, (v) => updateShirt('k', v), 'K')}
                             </div>
                         </div>
                         <div>
@@ -309,8 +309,7 @@ export function MeasurementsStep() {
                             </div>
                         </div>
                         <div>
-                            <label className="text-xs font-bold text-gray-600 mb-1 block">K</label>
-                            {mInput(shirt.k, (v) => updateShirt('k', v))}
+                            {/* K field moved next to S */}
                         </div>
                         <div className="col-span-2 md:col-span-4 border-t pt-4 mt-2">
                             <label className="text-xs font-bold text-gray-600 mb-3 block">SHIRT OPTIONS</label>
@@ -788,9 +787,9 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                             <div><b>F:</b> <b>{val(shirt.f)}</b></div>
                             <div><b>L:</b> <b>{val(shirt.l)}</b></div>
                             <div><b>So:</b> <b>{val(shirt.so)}</b></div>
-                            <div><b>S:</b> <b>{val(shirt.s1)} {val(shirt.s2)}</b></div>
+                            <div><b>S:</b> <b>{val(shirt.s1)} <span style={{ marginLeft: '8px' }}>K:</span> {val(shirt.k)}</b></div>
                             <div><b>Ku:</b> <b>{val(shirt.ku1)} {val(shirt.ku2)}</b></div>
-                            <div><b>Ko:</b> <b>{val(shirt.ko1)} {val(shirt.ko2)} <span style={{ marginLeft: '8px' }}>K:</span> {val(shirt.k)}</b></div>
+                            <div><b>Ko:</b> <b>{val(shirt.ko1)} {val(shirt.ko2)}</b></div>
                         </div>
                         {shirt.notes && (
                             <div style={{ fontSize: '10px', borderLeft: '1px dashed #999', paddingLeft: '8px', maxWidth: '40%', whiteSpace: 'pre-wrap', fontWeight: 'bold' }}>

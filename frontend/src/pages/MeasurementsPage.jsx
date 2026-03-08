@@ -18,7 +18,7 @@ export default function MeasurementsPage() {
         f: '',
         l: '',
         so: '',
-        s1: '', s2: '',
+        s1: '',
         ku1: '', ku2: '',
         ko1: '', ko2: '',
         k: ''
@@ -179,12 +179,12 @@ export default function MeasurementsPage() {
                                 </div>
                             </div>
 
-                            {/* Row S */}
+                            {/* Row S / K */}
                             <div className="flex items-center gap-4">
-                                <span className="w-8 font-bold text-gray-700">S:</span>
+                                <span className="w-8 font-bold text-gray-700 text-xs">S / K:</span>
                                 <div className="grid grid-cols-2 gap-2 w-2/3">
                                     <MeasureInput name="s1" value={shirt.s1} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
-                                    <MeasureInput name="s2" value={shirt.s2} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
+                                    <MeasureInput name="k" value={shirt.k} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -206,13 +206,7 @@ export default function MeasurementsPage() {
                                 </div>
                             </div>
 
-                            {/* Row K */}
-                            <div className="flex items-center gap-4">
-                                <span className="w-8 font-bold text-gray-700">K:</span>
-                                <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="k" value={shirt.k} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
-                                </div>
-                            </div>
+                            {/* Row K moved next to S */}
                         </div>
                     </div>
 

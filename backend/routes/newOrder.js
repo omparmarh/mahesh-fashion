@@ -47,7 +47,7 @@ router.post('/complete', auth, async (req, res) => {
             Status: 'Pending',
             Top_C1: shirt?.c1 || '', Top_C2: shirt?.c2 || '', Top_C3: shirt?.c3 || '',
             Top_F: shirt?.f || '', Top_L: shirt?.l || '', Top_So: shirt?.so || '',
-            Top_S1: shirt?.s1 || '', Top_S2: shirt?.s2 || '',
+            Top_S1: shirt?.s1 || '',
             Top_Ku1: shirt?.ku1 || '', Top_Ku2: shirt?.ku2 || '',
             Top_Ko1: shirt?.ko1 || '', Top_Ko2: shirt?.ko2 || '',
             Top_K: shirt?.k || '',

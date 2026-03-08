@@ -89,7 +89,6 @@ router.post('/', auth, async (req, res) => {
             Top_L: payload.shirt?.l || '',
             Top_So: payload.shirt?.so || '',
             Top_S1: payload.shirt?.s1 || '',
-            Top_S2: payload.shirt?.s2 || '',
             Top_Ku1: payload.shirt?.ku1 || '',
             Top_Ku2: payload.shirt?.ku2 || '',
             Top_Ko1: payload.shirt?.ko1 || '',
