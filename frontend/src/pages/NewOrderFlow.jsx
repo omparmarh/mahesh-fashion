@@ -807,8 +807,12 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                         <div style={{ textAlign: 'right' }}>
                             <div><b>Date: {deliveryDate}</b></div>
                             {pant.options && pant.options.length > 0 && (
-                                <div style={{ fontSize: '14px', fontWeight: '900', color: '#000', marginTop: '2px' }}>
-                                    {pant.options.join(', ')}
+                                <div style={{ marginTop: '5px' }}>
+                                    {pant.options.map((opt, idx) => (
+                                        <div key={idx} style={{ fontSize: '20px', fontWeight: '900', color: '#000', lineHeight: '1.2' }}>
+                                            {opt}
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </div>
@@ -855,8 +859,12 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                         <div style={{ textAlign: 'right' }}>
                             <div><b>Date: {deliveryDate}</b></div>
                             {shirt.options && shirt.options.length > 0 && (
-                                <div style={{ fontSize: '14px', fontWeight: '900', color: '#000', marginTop: '2px' }}>
-                                    {shirt.options.join(', ')}
+                                <div style={{ marginTop: '5px' }}>
+                                    {shirt.options.map((opt, idx) => (
+                                        <div key={idx} style={{ fontSize: '20px', fontWeight: '900', color: '#000', lineHeight: '1.2' }}>
+                                            {opt}
+                                        </div>
+                                    ))}
                                 </div>
                             )}
                         </div>
