@@ -35,6 +35,22 @@ export default function MeasurementsPage() {
     const handleShirtChange = (e) => setShirt({ ...shirt, [e.target.name]: e.target.value });
     const handlePantChange = (e) => setPant({ ...pant, [e.target.name]: e.target.value });
 
+    const handleKeyDownNext = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const form = e.target.form;
+            const index = Array.prototype.indexOf.call(form.elements, e.target);
+            const next = form.elements[index + 1];
+            if (next && (next.tagName === 'INPUT' || next.tagName === 'TEXTAREA' || next.tagName === 'SELECT')) {
+                next.focus();
+            } else if (next && next.tagName === 'BUTTON' && next.type === 'submit') {
+                // Focus the submit button but don't click it automatically if it's the last one
+                // Or we can just submit. Let's focus it.
+                next.focus();
+            }
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
@@ -97,29 +113,29 @@ export default function MeasurementsPage() {
                         <UserIcon className="w-5 h-5 mr-2 text-mahesh-maroon print:text-black" /> Customer Details
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 ml:grid-cols-3 gap-6 print:gap-4 print:grid-cols-3">
-                        <InputGroup label="Full Name *" name="name" value={customer.name} onChange={handleCustChange} icon={UserIcon} />
-                        <InputGroup label="Phone *" name="phone" value={customer.phone} onChange={handleCustChange} type="tel" icon={PhoneIcon} />
-                        <InputGroup label="WhatsApp" name="whatsapp" value={customer.whatsapp} onChange={handleCustChange} type="tel" />
-                        <InputGroup label="Email" name="email" value={customer.email} onChange={handleCustChange} type="email" />
-                        <InputGroup label="Address (Pincode)" name="address" value={customer.address} onChange={handleCustChange} />
+                        <InputGroup label="Full Name *" name="name" value={customer.name} onChange={handleCustChange} onKeyDown={handleKeyDownNext} icon={UserIcon} />
+                        <InputGroup label="Phone *" name="phone" value={customer.phone} onChange={handleCustChange} onKeyDown={handleKeyDownNext} type="tel" icon={PhoneIcon} />
+                        <InputGroup label="WhatsApp" name="whatsapp" value={customer.whatsapp} onChange={handleCustChange} onKeyDown={handleKeyDownNext} type="tel" />
+                        <InputGroup label="Email" name="email" value={customer.email} onChange={handleCustChange} onKeyDown={handleKeyDownNext} type="email" />
+                        <InputGroup label="Address (Pincode)" name="address" value={customer.address} onChange={handleCustChange} onKeyDown={handleKeyDownNext} />
                         <div className="space-y-1">
                             <label className="block text-sm font-medium text-gray-700 font-bold print:text-xs">Gender</label>
-                            <select name="gender" value={customer.gender} onChange={handleCustChange} className="input-field print:border-b print:border-t-0 print:border-l-0 print:border-r-0 print:rounded-none print:px-0">
+                            <select name="gender" value={customer.gender} onChange={handleCustChange} onKeyDown={handleKeyDownNext} className="input-field print:border-b print:border-t-0 print:border-l-0 print:border-r-0 print:rounded-none print:px-0">
                                 <option>Male</option><option>Female</option><option>Other</option>
                             </select>
                         </div>
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mt-6 pt-6 border-t border-gray-100 print:gap-4 print:mt-4 print:pt-4 print:border-gray-400">
-                        <InputGroup label="Delivery Date *" name="deliveryDate" type="date" value={customer.deliveryDate} onChange={handleCustChange} icon={CalendarDaysIcon} />
-                        <InputGroup label="Total Amount (₹)" name="totalAmount" type="number" value={customer.totalAmount} onChange={handleCustChange} icon={CalculatorIcon} />
-                        <InputGroup label="Advance Paid (₹)" name="advance" type="number" value={customer.advance} onChange={handleCustChange} icon={CalculatorIcon} />
+                        <InputGroup label="Delivery Date *" name="deliveryDate" type="date" value={customer.deliveryDate} onChange={handleCustChange} onKeyDown={handleKeyDownNext} icon={CalendarDaysIcon} />
+                        <InputGroup label="Total Amount (₹)" name="totalAmount" type="number" value={customer.totalAmount} onChange={handleCustChange} onKeyDown={handleKeyDownNext} icon={CalculatorIcon} />
+                        <InputGroup label="Advance Paid (₹)" name="advance" type="number" value={customer.advance} onChange={handleCustChange} onKeyDown={handleKeyDownNext} icon={CalculatorIcon} />
                         <div className="space-y-1">
                             <label className="block text-sm font-medium text-gray-700 font-bold print:text-xs">Style Pref</label>
-                            <select name="stylePreference" value={customer.stylePreference} onChange={handleCustChange} className="input-field print:border-b print:border-t-0 print:border-l-0 print:border-r-0 print:rounded-none print:px-0">
+                            <select name="stylePreference" value={customer.stylePreference} onChange={handleCustChange} onKeyDown={handleKeyDownNext} className="input-field print:border-b print:border-t-0 print:border-l-0 print:border-r-0 print:rounded-none print:px-0">
                                 <option>Slim</option><option>Regular</option><option>Fit</option>
                             </select>
                         </div>
-                        <InputGroup label="Fabric Notes" name="fabricNotes" value={customer.fabricNotes} onChange={handleCustChange} />
+                        <InputGroup label="Fabric Notes" name="fabricNotes" value={customer.fabricNotes} onChange={handleCustChange} onKeyDown={handleKeyDownNext} />
                     </div>
                 </div>
 
@@ -133,9 +149,9 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">C:</span>
                                 <div className="grid grid-cols-3 gap-2 flex-grow">
-                                    <MeasureInput name="c1" value={shirt.c1} onChange={handleShirtChange} />
-                                    <MeasureInput name="c2" value={shirt.c2} onChange={handleShirtChange} />
-                                    <MeasureInput name="c3" value={shirt.c3} onChange={handleShirtChange} />
+                                    <MeasureInput name="c1" value={shirt.c1} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
+                                    <MeasureInput name="c2" value={shirt.c2} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
+                                    <MeasureInput name="c3" value={shirt.c3} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -143,7 +159,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">F:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="f" value={shirt.f} onChange={handleShirtChange} />
+                                    <MeasureInput name="f" value={shirt.f} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -151,7 +167,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">L:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="l" value={shirt.l} onChange={handleShirtChange} />
+                                    <MeasureInput name="l" value={shirt.l} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -159,7 +175,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">So:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="so" value={shirt.so} onChange={handleShirtChange} />
+                                    <MeasureInput name="so" value={shirt.so} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -167,8 +183,8 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">S:</span>
                                 <div className="grid grid-cols-2 gap-2 w-2/3">
-                                    <MeasureInput name="s1" value={shirt.s1} onChange={handleShirtChange} />
-                                    <MeasureInput name="s2" value={shirt.s2} onChange={handleShirtChange} />
+                                    <MeasureInput name="s1" value={shirt.s1} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
+                                    <MeasureInput name="s2" value={shirt.s2} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -176,8 +192,8 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">Ku:</span>
                                 <div className="grid grid-cols-2 gap-2 w-2/3">
-                                    <MeasureInput name="ku1" value={shirt.ku1} onChange={handleShirtChange} />
-                                    <MeasureInput name="ku2" value={shirt.ku2} onChange={handleShirtChange} />
+                                    <MeasureInput name="ku1" value={shirt.ku1} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
+                                    <MeasureInput name="ku2" value={shirt.ku2} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -185,8 +201,8 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">Ko:</span>
                                 <div className="grid grid-cols-2 gap-2 w-2/3">
-                                    <MeasureInput name="ko1" value={shirt.ko1} onChange={handleShirtChange} />
-                                    <MeasureInput name="ko2" value={shirt.ko2} onChange={handleShirtChange} />
+                                    <MeasureInput name="ko1" value={shirt.ko1} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
+                                    <MeasureInput name="ko2" value={shirt.ko2} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -194,7 +210,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">K:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="k" value={shirt.k} onChange={handleShirtChange} />
+                                    <MeasureInput name="k" value={shirt.k} onChange={handleShirtChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
                         </div>
@@ -209,7 +225,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">W:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="w" value={pant.w} onChange={handlePantChange} />
+                                    <MeasureInput name="w" value={pant.w} onChange={handlePantChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -217,7 +233,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">H:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="h" value={pant.h} onChange={handlePantChange} />
+                                    <MeasureInput name="h" value={pant.h} onChange={handlePantChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -225,8 +241,8 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">L:</span>
                                 <div className="grid grid-cols-2 gap-2 w-2/3">
-                                    <MeasureInput name="l1" value={pant.l1} onChange={handlePantChange} />
-                                    <MeasureInput name="l2" value={pant.l2} onChange={handlePantChange} />
+                                    <MeasureInput name="l1" value={pant.l1} onChange={handlePantChange} onKeyDown={handleKeyDownNext} />
+                                    <MeasureInput name="l2" value={pant.l2} onChange={handlePantChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -234,7 +250,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">T:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="t" value={pant.t} onChange={handlePantChange} />
+                                    <MeasureInput name="t" value={pant.t} onChange={handlePantChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -242,7 +258,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">K:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="k" value={pant.k} onChange={handlePantChange} />
+                                    <MeasureInput name="k" value={pant.k} onChange={handlePantChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -250,7 +266,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">B:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="b" value={pant.b} onChange={handlePantChange} />
+                                    <MeasureInput name="b" value={pant.b} onChange={handlePantChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
 
@@ -258,7 +274,7 @@ export default function MeasurementsPage() {
                             <div className="flex items-center gap-4">
                                 <span className="w-8 font-bold text-gray-700">R:</span>
                                 <div className="grid grid-cols-1 gap-2 w-1/3">
-                                    <MeasureInput name="r" value={pant.r} onChange={handlePantChange} />
+                                    <MeasureInput name="r" value={pant.r} onChange={handlePantChange} onKeyDown={handleKeyDownNext} />
                                 </div>
                             </div>
                         </div>
@@ -280,7 +296,7 @@ export default function MeasurementsPage() {
     );
 }
 
-const InputGroup = ({ label, name, value, onChange, placeholder, type = "text", icon: Icon }) => (
+const InputGroup = ({ label, name, value, onChange, onKeyDown, placeholder, type = "text", icon: Icon }) => (
     <div className="space-y-1">
         <label className="block text-sm font-medium text-gray-700 font-bold print:text-xs">{label}</label>
         <div className="relative rounded-md shadow-sm print:shadow-none">
@@ -294,6 +310,7 @@ const InputGroup = ({ label, name, value, onChange, placeholder, type = "text", 
                 name={name}
                 value={value}
                 onChange={onChange}
+                onKeyDown={onKeyDown}
                 placeholder={placeholder}
                 required={name === 'name' || name === 'phone' || name === 'deliveryDate'}
                 className={`input-field print:border-b print:border-t-0 print:border-l-0 print:border-r-0 print:border-gray-400 print:rounded-none print:px-0 print:py-0 print:text-sm print:font-semibold ${Icon ? 'pl-10 print:pl-0' : ''}`}
@@ -302,7 +319,7 @@ const InputGroup = ({ label, name, value, onChange, placeholder, type = "text", 
     </div>
 );
 
-const MeasureInput = ({ name, value, onChange }) => (
+const MeasureInput = ({ name, value, onChange, onKeyDown }) => (
     <div className="relative rounded-md shadow-sm print:shadow-none">
         <input
             type="number"
@@ -310,6 +327,7 @@ const MeasureInput = ({ name, value, onChange }) => (
             name={name}
             value={value}
             onChange={onChange}
+            onKeyDown={onKeyDown}
             className="input-field text-center font-bold text-mahesh-maroon print:text-black print:border-b print:border-t-0 print:border-l-0 print:border-r-0 print:border-gray-400 print:rounded-none print:px-1 print:py-0 print:text-sm"
             placeholder=""
         />

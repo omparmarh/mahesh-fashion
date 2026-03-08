@@ -58,6 +58,20 @@ export function CustomerDetailsStep() {
         return Object.keys(e).length === 0;
     };
 
+    const handleKeyDownNext = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const form = e.target.form;
+            const index = Array.prototype.indexOf.call(form.elements, e.target);
+            const next = form.elements[index + 1];
+            if (next) {
+                next.focus();
+            } else {
+                handleNext(e);
+            }
+        }
+    };
+
     const handleNext = (e) => {
         e.preventDefault();
         if (!validate()) return;
@@ -85,6 +99,7 @@ export function CustomerDetailsStep() {
                             placeholder="e.g. Ramesh Patel"
                             value={customerName}
                             onChange={(e) => setCustomerName(e.target.value)}
+                            onKeyDown={handleKeyDownNext}
                         />
                         {errors.name && <p className="text-xs text-red-600 mt-1">{errors.name}</p>}
                     </div>
@@ -98,6 +113,7 @@ export function CustomerDetailsStep() {
                             placeholder="10-digit mobile number"
                             value={customerPhone}
                             onChange={(e) => setCustomerPhone(e.target.value)}
+                            onKeyDown={handleKeyDownNext}
                             maxLength={10}
                         />
                         {errors.phone && <p className="text-xs text-red-600 mt-1">{errors.phone}</p>}
@@ -129,12 +145,27 @@ export function MeasurementsStep() {
     const updateShirt = (field, val) => setShirt((p) => ({ ...p, [field]: val }));
     const updatePant = (field, val) => setPant((p) => ({ ...p, [field]: val }));
 
+    const handleKeyDownNext = (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const form = e.target.form;
+            const index = Array.prototype.indexOf.call(form.elements, e.target);
+            const next = form.elements[index + 1];
+            if (next && (next.tagName === 'INPUT' || next.tagName === 'TEXTAREA' || next.tagName === 'SELECT')) {
+                next.focus();
+            } else {
+                handleNext(e);
+            }
+        }
+    };
+
     const mInput = (val, onChange, placeholder = '') => (
         <input
             type="text"
             className="w-full px-2 py-1.5 border border-gray-300 rounded text-sm outline-none focus:ring-1 focus:ring-red-700 text-center"
             value={val}
             onChange={(e) => onChange(e.target.value)}
+            onKeyDown={handleKeyDownNext}
             placeholder={placeholder}
         />
     );
@@ -176,6 +207,7 @@ export function MeasurementsStep() {
                         className="px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-red-800 text-sm"
                         value={deliveryDate}
                         onChange={(e) => setDeliveryDate(e.target.value)}
+                        onKeyDown={handleKeyDownNext}
                         required
                     />
                     {error && <p className="text-xs text-red-600 mt-2">{error}</p>}
@@ -239,6 +271,7 @@ export function MeasurementsStep() {
                                 rows={2}
                                 value={shirt.notes}
                                 onChange={(e) => updateShirt('notes', e.target.value)}
+                                onKeyDown={handleKeyDownNext}
                                 placeholder="Special instructions..."
                             />
                         </div>
@@ -289,6 +322,7 @@ export function MeasurementsStep() {
                                 rows={2}
                                 value={pant.notes}
                                 onChange={(e) => updatePant('notes', e.target.value)}
+                                onKeyDown={handleKeyDownNext}
                                 placeholder="Special instructions..."
                             />
                         </div>
