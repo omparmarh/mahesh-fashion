@@ -444,9 +444,9 @@ export function BillingStep() {
     const deliveryDisplay = deliveryDate ? new Date(deliveryDate).toLocaleDateString('en-IN') : '';
 
     const [articles, setArticles] = useState([
-        { article: 'PANT', qty: 0, rate: 0, amount: 0 },
-        { article: 'SHIRT', qty: 0, rate: 0, amount: 0 },
-        { article: 'JODI', qty: 0, rate: 0, amount: 0 },
+        { article: 'PANT', qty: 0, rate: 350, amount: 0 },
+        { article: 'SHIRT', qty: 0, rate: 300, amount: 0 },
+        { article: 'JODI', qty: 0, rate: 650, amount: 0 },
     ]);
     const [stitchingCost, setStitchingCost] = useState(0);
     const [fabricCost, setFabricCost] = useState(0);
