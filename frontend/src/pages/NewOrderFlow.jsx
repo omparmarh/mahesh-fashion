@@ -444,9 +444,9 @@ export function BillingStep() {
     const deliveryDisplay = deliveryDate ? new Date(deliveryDate).toLocaleDateString('en-IN') : '';
 
     const [articles, setArticles] = useState([
-        { article: 'PANT', qty: 0, rate: 350, amount: 0 },
-        { article: 'SHIRT', qty: 0, rate: 300, amount: 0 },
-        { article: 'JODI', qty: 0, rate: 650, amount: 0 },
+        { article: 'PANT', qty: 0, rate: 0, amount: 0 },
+        { article: 'SHIRT', qty: 0, rate: 0, amount: 0 },
+        { article: 'JODI', qty: 0, rate: 0, amount: 0 },
     ]);
     const [stitchingCost, setStitchingCost] = useState(0);
     const [fabricCost, setFabricCost] = useState(0);
@@ -474,9 +474,30 @@ export function BillingStep() {
     const grandTotal = subTotal + Number(stitchingCost || 0) + Number(fabricCost || 0) + Number(extraCost || 0);
     const totalDue = Math.max(0, grandTotal - Number(payAmount || 0));
 
+    const DEFAULT_RATES = {
+        'PANT': 350,
+        'SHIRT': 300,
+        'JODI': 650
+    };
+
     const updateArticle = (i, field, val) => {
         const updated = [...articles];
         updated[i][field] = val;
+
+        // Auto-fill rate based on quantity
+        if (field === 'qty') {
+            const newQty = Number(val) || 0;
+            const articleName = updated[i].article.toUpperCase();
+
+            if (newQty > 0 && (Number(updated[i].rate) === 0)) {
+                if (DEFAULT_RATES[articleName]) {
+                    updated[i].rate = DEFAULT_RATES[articleName];
+                }
+            } else if (newQty === 0) {
+                updated[i].rate = 0;
+            }
+        }
+
         if (field === 'qty' || field === 'rate') {
             updated[i].amount = (Number(updated[i].qty) || 0) * (Number(updated[i].rate) || 0);
         }
