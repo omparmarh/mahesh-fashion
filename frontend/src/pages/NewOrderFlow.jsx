@@ -818,8 +818,10 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                             <div><b>K:</b> <b style={{ fontSize: '20px' }}>{val(pant.k)}</b></div>
                             <div><b>B:</b> <b style={{ fontSize: '20px' }}>{val(pant.b)}</b></div>
                             <div><b>R:</b> <b style={{ fontSize: '20px' }}>{val(pant.r)}</b></div>
+                        </div>
+                        <div style={{ width: '45%', display: 'flex', flexDirection: 'column', gap: '15px', justifyContent: 'center' }}>
                             {pant.options && pant.options.length > 0 && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginTop: '5px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                     {pant.options.map((opt, idx) => (
                                         <div key={idx} style={{ fontSize: '20px', fontWeight: '900', color: '#000', lineHeight: '1.2' }}>
                                             {opt}
@@ -827,8 +829,6 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                                     ))}
                                 </div>
                             )}
-                        </div>
-                        <div style={{ width: '45%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             {pant.notes && (
                                 <div style={{ fontSize: '11px', border: '1px solid #ddd', padding: '5px', borderRadius: '4px', fontWeight: 'bold' }}>
                                     {pant.notes}
@@ -870,8 +870,10 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                             <div><b>S:</b> <b style={{ fontSize: '20px' }}>{val(shirt.s1)}</b></div>
                             <div><b>Ku:</b> <b style={{ fontSize: '20px' }}>{val(shirt.ku1)} {val(shirt.ku2)}</b></div>
                             <div><b>Ko:</b> <b style={{ fontSize: '20px' }}>{val(shirt.ko1)} {val(shirt.ko2)}</b></div>
+                        </div>
+                        <div style={{ width: '45%', display: 'flex', flexDirection: 'column', gap: '15px', justifyContent: 'center' }}>
                             {shirt.options && shirt.options.length > 0 && (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginTop: '5px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                     {shirt.options.map((opt, idx) => (
                                         <div key={idx} style={{ fontSize: '20px', fontWeight: '900', color: '#000', lineHeight: '1.2' }}>
                                             {opt}
@@ -879,8 +881,6 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                                     ))}
                                 </div>
                             )}
-                        </div>
-                        <div style={{ width: '45%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
                             {shirt.notes && (
                                 <div style={{ fontSize: '11px', border: '1px solid #ddd', padding: '5px', borderRadius: '4px', fontWeight: 'bold' }}>
                                     {shirt.notes}
