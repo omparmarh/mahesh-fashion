@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import api from '../api';
 
 // ─── Progress Indicator ───────────────────────────────────────────────────────
-function ProgressBar({ step }) {
+function ProgressBar({ step, onStepClick }) {
     const steps = ['Customer Details', 'Measurements', 'Bill'];
     return (
         <div className="flex items-center justify-center mb-8">
@@ -13,7 +13,10 @@ function ProgressBar({ step }) {
                 const active = step === num;
                 return (
                     <div key={num} className="flex items-center">
-                        <div className="flex flex-col items-center">
+                        <div
+                            className={`flex flex-col items-center cursor-pointer transition-transform hover:scale-105`}
+                            onClick={() => onStepClick && onStepClick(num)}
+                        >
                             <div
                                 className={`w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm border-2 transition-all ${done
                                     ? 'bg-mahesh-maroon border-mahesh-maroon text-white'
@@ -80,9 +83,19 @@ export function CustomerDetailsStep() {
         });
     };
 
+    const handleStepNav = (targetStep) => {
+        if (targetStep === 1) return; // Already here
+        if (targetStep === 2) {
+            navigate('/new-order/measurements', { state: { customerName, customerPhone } });
+        }
+        if (targetStep === 3) {
+            navigate('/new-order/billing', { state: { customerName, customerPhone } });
+        }
+    };
+
     return (
         <div className="max-w-lg mx-auto">
-            <ProgressBar step={1} />
+            <ProgressBar step={1} onStepClick={handleStepNav} />
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8">
                 <div className="mb-6">
                     <h1 className="text-2xl font-bold text-gray-900">New Customer</h1>
@@ -185,9 +198,19 @@ export function MeasurementsStep() {
         });
     };
 
+    const handleStepNav = (targetStep) => {
+        if (targetStep === 1) {
+            navigate('/new-order/customer', { state: { customerName, customerPhone } });
+        }
+        if (targetStep === 2) return; // Already here
+        if (targetStep === 3) {
+            navigate('/new-order/billing', { state: { customerName, customerPhone, deliveryDate, shirt, pant } });
+        }
+    };
+
     return (
         <div className="max-w-3xl mx-auto">
-            <ProgressBar step={2} />
+            <ProgressBar step={2} onStepClick={handleStepNav} />
 
             {/* Customer info banner */}
             <div className="bg-red-50 border border-red-200 rounded-xl px-5 py-3 mb-5 flex items-center gap-3 text-sm">
@@ -356,7 +379,11 @@ export function BillingStep() {
     const today = new Date().toLocaleDateString('en-IN');
     const deliveryDisplay = deliveryDate ? new Date(deliveryDate).toLocaleDateString('en-IN') : '';
 
-    const [articles, setArticles] = useState([{ article: '', qty: 1, rate: 0, amount: 0 }]);
+    const [articles, setArticles] = useState([
+        { article: 'PANT', qty: 0, rate: 0, amount: 0 },
+        { article: 'SHIRT', qty: 0, rate: 0, amount: 0 },
+        { article: 'JODI', qty: 0, rate: 0, amount: 0 },
+    ]);
     const [stitchingCost, setStitchingCost] = useState(0);
     const [fabricCost, setFabricCost] = useState(0);
     const [extraCost, setExtraCost] = useState(0);
@@ -425,6 +452,15 @@ export function BillingStep() {
             }
 
             alert(`Order Saved Successfully! Order ID: ${data.orderID || 'Created'}`);
+
+            // Auto-print after saving
+            setTimeout(() => {
+                handlePrint('measurement');
+                setTimeout(() => {
+                    handlePrint('bill');
+                }, 1000); // Wait a bit for the first print dialog to be handled/ready
+            }, 500);
+
             // Don't navigate immediately so user can print with the real ID if they want
             // navigate('/orders'); 
         } catch (err) {
@@ -434,9 +470,19 @@ export function BillingStep() {
         }
     };
 
+    const handleStepNav = (targetStep) => {
+        if (targetStep === 1) {
+            navigate('/new-order/customer', { state: { customerName, customerPhone } });
+        }
+        if (targetStep === 2) {
+            navigate('/new-order/measurements', { state: { customerName, customerPhone, deliveryDate, shirt, pant } });
+        }
+        if (targetStep === 3) return; // Already here
+    };
+
     return (
         <div className="max-w-3xl mx-auto pb-12">
-            <ProgressBar step={3} />
+            <ProgressBar step={3} onStepClick={handleStepNav} />
 
             {/* Print components (hidden on screen, shown on print) */}
             <MeasurementSlipPrint
@@ -455,7 +501,7 @@ export function BillingStep() {
                 billNo={realOrderID || billNo}
                 date={today}
                 deliveryDate={deliveryDisplay}
-                articles={articles}
+                articles={articles.filter(a => Number(a.qty) >= 1)}
                 subTotal={subTotal}
                 stitchingCost={Number(stitchingCost)}
                 fabricCost={Number(fabricCost)}
@@ -744,7 +790,7 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
                         </tr>
                     </thead>
                     <tbody>
-                        {articles.map((a, i) => (
+                        {articles.filter(a => Number(a.qty) >= 1).map((a, i) => (
                             <tr key={i}>
                                 <td style={{ padding: '2px 3px' }}><b>{i + 1}</b></td>
                                 <td style={{ padding: '2px 3px' }}>{a.article}</td>
@@ -753,7 +799,7 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
                                 <td style={{ textAlign: 'right', padding: '2px 3px' }}><b>{a.amount}</b></td>
                             </tr>
                         ))}
-                        {Array.from({ length: Math.max(0, 5 - articles.length) }).map((_, i) => (
+                        {Array.from({ length: Math.max(0, 5 - articles.filter(a => Number(a.qty) >= 1).length) }).map((_, i) => (
                             <tr key={`e-${i}`}><td colSpan={5} style={{ padding: '6px' }}>&nbsp;</td></tr>
                         ))}
                     </tbody>
@@ -761,7 +807,7 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
                         <tr style={{ borderTop: '1px solid #000' }}>
                             <td colSpan={2}></td>
                             <td style={{ textAlign: 'center', padding: '2px 3px', fontWeight: 'bold' }}>
-                                <b>{articles.reduce((s, a) => s + (Number(a.qty) || 0), 0)}</b>
+                                <b>{articles.filter(a => Number(a.qty) >= 1).reduce((s, a) => s + (Number(a.qty) || 0), 0)}</b>
                             </td>
                             <td style={{ textAlign: 'right', padding: '2px 3px', fontWeight: 'bold' }}>Sub Total :</td>
                             <td style={{ textAlign: 'right', padding: '2px 3px', fontWeight: 'bold' }}><b>{subTotal}</b></td>
