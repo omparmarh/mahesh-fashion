@@ -150,7 +150,6 @@ export function MeasurementsStep() {
     const location = useLocation();
     const { customerName = '', customerPhone = '' } = location.state || {};
 
-    const [deliveryDate, setDeliveryDate] = useState('');
     const [shirt, setShirt] = useState({ c1: '', c2: '', c3: '', f: '', l: '', so: '', s1: '', ku1: '', ku2: '', ko1: '', ko2: '', k: '', notes: '', options: [] });
     const [pant, setPant] = useState({ w: '', h: '', l1: '', l2: '', t: '', k: '', b: '', r: '', notes: '', options: [] });
     const [error, setError] = useState('');
@@ -210,10 +209,9 @@ export function MeasurementsStep() {
 
     const handleNext = (e) => {
         e.preventDefault();
-        if (!deliveryDate) { setError('Please select a delivery date'); return; }
         setError('');
         navigate('/new-order/billing', {
-            state: { customerName, customerPhone, deliveryDate, shirt, pant },
+            state: { customerName, customerPhone, shirt, pant },
         });
     };
 
@@ -229,7 +227,7 @@ export function MeasurementsStep() {
         }
         if (targetStep === 2) return; // Already here
         if (targetStep === 3) {
-            navigate('/new-order/billing', { state: { customerName, customerPhone, deliveryDate, shirt, pant } });
+            navigate('/new-order/billing', { state: { customerName, customerPhone, shirt, pant } });
         }
     };
 
@@ -247,20 +245,6 @@ export function MeasurementsStep() {
             </div>
 
             <form onSubmit={handleNext} className="space-y-5">
-                {/* Delivery Date */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-                    <label className="block text-sm font-bold text-gray-700 mb-2">Delivery Date *</label>
-                    <input
-                        type="date"
-                        className="px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-red-800 text-sm"
-                        value={deliveryDate}
-                        onChange={(e) => setDeliveryDate(e.target.value)}
-                        onKeyDown={handleKeyDownNext}
-                        required
-                    />
-                    {error && <p className="text-xs text-red-600 mt-2">{error}</p>}
-                </div>
-
                 {/* SHIRT Section */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
                     <div className="bg-mahesh-maroon px-5 py-3">
@@ -434,10 +418,11 @@ export function BillingStep() {
     const navigate = useNavigate();
     const location = useLocation();
     const {
-        customerName = '', customerPhone = '', deliveryDate = '',
+        customerName = '', customerPhone = '',
         shirt = {}, pant = {}
     } = location.state || {};
 
+    const [deliveryDate, setDeliveryDate] = useState('');
     const [billNo, setBillNo] = useState('...');
     const [realOrderID, setRealOrderID] = useState('');
     const today = new Date().toLocaleDateString('en-IN');
@@ -535,6 +520,10 @@ export function BillingStep() {
     };
 
     const handleSave = async () => {
+        if (!deliveryDate) {
+            alert('Please select a delivery date');
+            return;
+        }
         setSaving(true);
         try {
             const { data } = await api.post('/new-order/complete', {
@@ -627,9 +616,9 @@ export function BillingStep() {
                 <span className="text-gray-800">{deliveryDisplay}</span>
             </div>
 
-            {/* Bill header */}
+            {/* Bill header & Delivery Date */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 mb-5">
-                <div className="flex gap-6 text-sm text-gray-600">
+                <div className="flex gap-6 text-sm text-gray-600 mb-4 items-center">
                     <div>
                         <span className="font-semibold text-gray-800">{realOrderID ? 'Order ID:' : 'Temp Bill No:'}</span>
                         <span className="font-mono text-mahesh-maroon ml-1">{realOrderID || billNo}</span>
@@ -641,6 +630,16 @@ export function BillingStep() {
                             <option>Cash</option><option>UPI</option><option>Card</option>
                         </select>
                     </div>
+                </div>
+                <div className="border-t border-gray-100 pt-4 flex items-center gap-4">
+                    <label className="text-sm font-bold text-gray-700">Delivery Date <span className="text-red-500">*</span></label>
+                    <input
+                        type="date"
+                        className="px-4 py-2 border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-red-800 text-sm"
+                        value={deliveryDate}
+                        onChange={(e) => setDeliveryDate(e.target.value)}
+                        required
+                    />
                 </div>
             </div>
 
@@ -767,10 +766,12 @@ function MeasurementSlipPrint({ active, customerName, customerPhone, billNo, del
                 position: fixed; 
                 top: 0; 
                 left: 0; 
-                width: 100%; 
-                height: 100vh;
+                width: 105mm; 
+                height: 148mm;
+                box-sizing: border-box;
                 display: flex !important; 
                 flex-direction: column;
+                overflow: hidden;
             }
             @page { size: A6 portrait; margin: 0; }
           }
@@ -918,7 +919,16 @@ function BillPrint({ active, customerName, customerPhone, billNo, date, delivery
           @media print {
             body * { visibility: hidden !important; }
             #bill-print, #bill-print * { visibility: visible !important; }
-            #bill-print { position: fixed; top: 0; left: 0; width: 100%; display: block !important; }
+            #bill-print { 
+                position: fixed; 
+                top: 0; 
+                left: 0; 
+                width: 105mm; 
+                height: 148mm;
+                box-sizing: border-box;
+                display: flex !important;
+                flex-direction: column;
+            }
             @page { size: A6 portrait; margin: 4mm; }
           }
         `}</style>

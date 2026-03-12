@@ -62,8 +62,8 @@ body {
     display: none !important;
   }
 
-  /* Force page to reset margins for clean print */
+  /* Allow specific pages to handle their own margins */
   @page {
-    margin: 1cm;
+    margin: 0;
   }
 }
