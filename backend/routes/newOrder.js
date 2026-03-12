@@ -80,7 +80,7 @@ router.post('/complete', auth, async (req, res) => {
 
         // 4. Create Invoice
         const newInvoice = new Invoice({
-            InvoiceNo: billNo,
+            InvoiceNo: orderID, // Fix for E11000 duplicate key: always use fresh orderID instead of stale client billNo
             CustomerID: customerID,
             CustomerName: customerName,
             Phone: customerPhone,
